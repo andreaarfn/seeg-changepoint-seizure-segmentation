@@ -5,10 +5,25 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         Grid matlab.ui.container.GridLayout
         LeftPanel matlab.ui.container.Panel
         ControlContent matlab.ui.container.Panel
+        ControlGrid matlab.ui.container.GridLayout
         PlotPanel matlab.ui.container.Panel
         ResultsPanel matlab.ui.container.Panel
+        DisplayPanel matlab.ui.container.Panel
+        OriginalResultsPanel matlab.ui.container.Panel
+        StephenResultsPanel matlab.ui.container.Panel
+        AnnotationResultsPanel matlab.ui.container.Panel
+        OriginalSummaryLabel matlab.ui.control.Label
+        StephenSummaryLabel matlab.ui.control.Label
+        OriginalResultsTable matlab.ui.control.Table
+        StephenResultsTable matlab.ui.control.Table
+        OriginalExpandButton matlab.ui.control.Button
+        StephenExpandButton matlab.ui.control.Button
         Axes matlab.ui.control.UIAxes
         ResidualAxes matlab.ui.control.UIAxes
+        PlotGrid matlab.ui.container.GridLayout
+        ResultsGrid matlab.ui.container.GridLayout
+        OriginalResultsGrid matlab.ui.container.GridLayout
+        StephenResultsGrid matlab.ui.container.GridLayout
 
         LoadButton matlab.ui.control.Button
         RunButton matlab.ui.control.Button
@@ -24,6 +39,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
         CCPanel matlab.ui.container.Panel
         TFPanel matlab.ui.container.Panel
+        RunModePanel matlab.ui.container.Panel
 
         OnsetWindow matlab.ui.control.NumericEditField
         OnsetStep matlab.ui.control.NumericEditField
@@ -43,20 +59,32 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         LLCheck matlab.ui.control.CheckBox
         SECheck matlab.ui.control.CheckBox
 
-        TFMaxChanges matlab.ui.control.EditField
-        TFDownsample matlab.ui.control.EditField
-        TFLowFreq matlab.ui.control.EditField
-        TFHighFreq matlab.ui.control.EditField
-        TFStatistic matlab.ui.control.DropDown
-        TFMinDistance matlab.ui.control.EditField
-        TFScanWindow matlab.ui.control.EditField
-        TFScanStep matlab.ui.control.EditField
+        RunModeDropDown matlab.ui.control.DropDown
+        IterationWindow matlab.ui.control.EditField
+        IterationStep matlab.ui.control.EditField
+        IterationWindowLabel matlab.ui.control.Label
+        IterationStepLabel matlab.ui.control.Label
+
+        StephenEMDCutoff matlab.ui.control.NumericEditField
+        StephenLowFreq matlab.ui.control.NumericEditField
+        StephenHighFreq matlab.ui.control.NumericEditField
+        StephenVoices matlab.ui.control.NumericEditField
+        StephenMinChanges matlab.ui.control.NumericEditField
+        StephenMaxChanges matlab.ui.control.NumericEditField
+        StephenStatistic matlab.ui.control.DropDown
+        StephenMinSpacing matlab.ui.control.NumericEditField
 
         OnsetResult matlab.ui.control.Label
         TransitionResult matlab.ui.control.Label
         TerminationResult matlab.ui.control.Label
         TFResult matlab.ui.control.Label
         StatusLabel matlab.ui.control.Label
+
+        ShowOriginalCheck matlab.ui.control.CheckBox
+        ShowStephenCheck matlab.ui.control.CheckBox
+        ShowLVFACheck matlab.ui.control.CheckBox
+        LoadedAnnotationResult matlab.ui.control.Label
+
     end
 
     properties (Access = private)
@@ -65,6 +93,16 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         Time
         Fs = 1000
         LVFATimes = []
+
+        LastOriginalOnset = NaN
+        LastOriginalTransition = NaN
+        LastOriginalEnd = NaN
+        LastOriginalOnsets = []
+        LastOriginalTransitions = []
+        LastOriginalEnds = []
+        LastStephenTimes = []
+        OriginalResultData = cell(0,5)
+        StephenResultData = cell(0,4)
     end
 
     methods (Access = private)
@@ -72,21 +110,46 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         function startupFcn(app)
             app.populateDefaults();
             app.updateMethodPanels();
+            app.updateResultsLayout();
+            app.updateRunModeControls();
             app.StatusLabel.Text = "Load a file to begin.";
         end
 
         function populateDefaults(app)
-            app.OnsetWindow.Value = 1000;
-            app.OnsetStep.Value = 150;
-            app.OnsetPenalty.Value = 11;
+            % Read the original detector defaults from the Python backend.
+            % Fall back to the repository defaults if Python is not available yet.
+            try
+                api = py.importlib.import_module('gui.api.detection_api');
+                defaults = api.get_defaults();
 
-            app.TransitionWindow.Value = 700;
-            app.TransitionStep.Value = 130;
-            app.TransitionPenalty.Value = 7;
+                onset = defaults{'onset'};
+                transition = defaults{'transition'};
+                termination = defaults{'termination'};
 
-            app.TerminationWindow.Value = 1000;
-            app.TerminationStep.Value = 200;
-            app.TerminationPenalty.Value = 10;
+                app.OnsetWindow.Value = double(onset{'window_size'}) * 1000 / app.Fs;
+                app.OnsetStep.Value = double(onset{'step'}) * 1000 / app.Fs;
+                app.OnsetPenalty.Value = double(onset{'penalty'});
+
+                app.TransitionWindow.Value = double(transition{'window_size'}) * 1000 / app.Fs;
+                app.TransitionStep.Value = double(transition{'step'}) * 1000 / app.Fs;
+                app.TransitionPenalty.Value = double(transition{'penalty'});
+
+                app.TerminationWindow.Value = double(termination{'window_size'}) * 1000 / app.Fs;
+                app.TerminationStep.Value = double(termination{'step'}) * 1000 / app.Fs;
+                app.TerminationPenalty.Value = double(termination{'penalty'});
+            catch
+                app.OnsetWindow.Value = 1000;
+                app.OnsetStep.Value = 150;
+                app.OnsetPenalty.Value = 11;
+
+                app.TransitionWindow.Value = 700;
+                app.TransitionStep.Value = 130;
+                app.TransitionPenalty.Value = 7;
+
+                app.TerminationWindow.Value = 1000;
+                app.TerminationStep.Value = 200;
+                app.TerminationPenalty.Value = 10;
+            end
 
             app.RMSCheck.Value = true;
             app.ThetaCheck.Value = true;
@@ -96,14 +159,168 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.LLCheck.Value = true;
             app.SECheck.Value = true;
 
-            app.TFMaxChanges.Value = "";
-            app.TFDownsample.Value = "";
-            app.TFLowFreq.Value = "";
-            app.TFHighFreq.Value = "";
-            app.TFStatistic.Value = "Select...";
-            app.TFMinDistance.Value = "";
-            app.TFScanWindow.Value = "";
-            app.TFScanStep.Value = "";
+            app.RunModeDropDown.Value = "Analyze full range";
+            app.IterationWindow.Value = "";
+            app.IterationStep.Value = "";
+
+
+            app.ShowOriginalCheck.Value = false;
+            app.ShowStephenCheck.Value = false;
+            app.ShowLVFACheck.Value = true;
+
+            s = getStephenDefaults();
+            app.StephenEMDCutoff.Value = s.emdCutoff;
+            app.StephenLowFreq.Value = s.lowFreq;
+            app.StephenHighFreq.Value = s.highFreq;
+            app.StephenVoices.Value = s.voicesPerOctave;
+            app.StephenMinChanges.Value = s.minChanges;
+            app.StephenMaxChanges.Value = s.maxChanges;
+            app.StephenStatistic.Value = s.statistic;
+            app.StephenMinSpacing.Value = s.minSpacing;
+        end
+
+
+        function showOriginalResultsTable(app)
+            app.OriginalResultsTable.Visible = "on";
+            app.OriginalExpandButton.Visible = "on";
+            app.OriginalResultsGrid.RowHeight = {34, 205, '1x', 38};
+        end
+
+        function showStephenResultsTable(app)
+            app.StephenResultsTable.Visible = "on";
+            app.StephenExpandButton.Visible = "on";
+            app.StephenResultsGrid.RowHeight = {34, 205, '1x', 38};
+        end
+
+        function hideResultTables(app)
+            app.OriginalResultsTable.Visible = "off";
+            app.StephenResultsTable.Visible = "off";
+            app.OriginalExpandButton.Visible = "off";
+            app.StephenExpandButton.Visible = "off";
+
+            app.OriginalResultsGrid.RowHeight = {34, 0, 0, 0};
+            app.StephenResultsGrid.RowHeight = {34, 0, 0, 0};
+        end
+
+        function onExpandOriginalResults(app, ~, ~)
+            app.openExpandedResults( ...
+                "Original detector results", ...
+                app.OriginalResultsTable.ColumnName, ...
+                app.OriginalResultData, ...
+                app.OriginalSummaryLabel.Text);
+        end
+
+        function onExpandStephenResults(app, ~, ~)
+            app.openExpandedResults( ...
+                "Stephen time-frequency results", ...
+                app.StephenResultsTable.ColumnName, ...
+                app.StephenResultData, ...
+                app.StephenSummaryLabel.Text);
+        end
+
+        function openExpandedResults(~, titleText, columnNames, tableData, summaryText)
+            fig = uifigure( ...
+                "Name", titleText, ...
+                "Position", [180 140 980 520], ...
+                "Resize", "on");
+
+            grid = uigridlayout(fig, [2 1]);
+            grid.RowHeight = {52, '1x'};
+            grid.Padding = [16 16 16 16];
+            grid.RowSpacing = 12;
+
+            uilabel(grid, ...
+                "Text", summaryText, ...
+                "FontSize", 14, ...
+                "FontWeight", "bold", ...
+                "WordWrap", "on");
+
+            t = uitable(grid, ...
+                "Data", tableData, ...
+                "ColumnName", columnNames, ...
+                "RowName", []);
+            t.ColumnWidth = "auto";
+        end
+
+        function value = displayTime(~, t)
+            if isempty(t) || ~isfinite(t)
+                value = "N/A";
+            else
+                value = sprintf("%.2f s", t);
+            end
+        end
+
+        function rangeText = displayRange(~, startTime, endTime)
+            rangeText = sprintf("%.2f–%.2f s", startTime, endTime);
+        end
+
+        function onDisplayChanged(app, ~, ~)
+            app.refreshSignalDisplay();
+        end
+
+        function refreshSignalDisplay(app)
+            app.plotSignal();
+
+            if isempty(app.Signal)
+                return
+            end
+
+            if isfinite(app.StartTimeEdit.Value) && isfinite(app.EndTimeEdit.Value) && ...
+                    app.StartTimeEdit.Value < app.EndTimeEdit.Value
+                app.markAnalysisRange();
+            end
+
+            method = string(app.MethodDropDown.Value);
+
+            if app.ShowOriginalCheck.Value && ...
+                    (method == "Original detector" || method == "Compare methods")
+
+                if ~isempty(app.LastOriginalOnsets)
+                    for k = 1:numel(app.LastOriginalOnsets)
+                        app.addMarker(app.LastOriginalOnsets(k), "O" + k, "original");
+                    end
+                    for k = 1:numel(app.LastOriginalTransitions)
+                        app.addMarker(app.LastOriginalTransitions(k), "T" + k, "original");
+                    end
+                    for k = 1:numel(app.LastOriginalEnds)
+                        app.addMarker(app.LastOriginalEnds(k), "E" + k, "original");
+                    end
+                else
+                    app.addMarker(app.LastOriginalOnset, "Onset", "original");
+                    app.addMarker(app.LastOriginalTransition, "Transition", "original");
+                    app.addMarker(app.LastOriginalEnd, "End", "original");
+                end
+            end
+
+            if app.ShowStephenCheck.Value && ...
+                    (method == "Stephen time-frequency" || method == "Compare methods")
+                for k = 1:numel(app.LastStephenTimes)
+                    app.addMarker(app.LastStephenTimes(k), "CP" + k, "stephen");
+                end
+            end
+        end
+
+        function updateResultsLayout(app)
+            method = string(app.MethodDropDown.Value);
+
+            if method == "Original detector"
+                app.OriginalResultsPanel.Visible = "on";
+                app.StephenResultsPanel.Visible = "off";
+                app.AnnotationResultsPanel.Visible = "on";
+                app.ResultsGrid.ColumnWidth = {'2x', 0, '1x'};
+
+            elseif method == "Stephen time-frequency"
+                app.OriginalResultsPanel.Visible = "off";
+                app.StephenResultsPanel.Visible = "on";
+                app.AnnotationResultsPanel.Visible = "on";
+                app.ResultsGrid.ColumnWidth = {0, '2x', '1x'};
+
+            else
+                app.OriginalResultsPanel.Visible = "on";
+                app.StephenResultsPanel.Visible = "on";
+                app.AnnotationResultsPanel.Visible = "on";
+                app.ResultsGrid.ColumnWidth = {'1.35x', '1.35x', '0.7x'};
+            end
         end
 
         function onLoad(app, ~, ~)
@@ -195,25 +412,96 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
         function onMethodChanged(app, ~, ~)
             app.updateMethodPanels();
+            app.updateResultsLayout();
+
+            app.ShowOriginalCheck.Value = false;
+            app.ShowStephenCheck.Value = false;
+
             app.clearResults();
             cla(app.ResidualAxes);
+            app.refreshSignalDisplay();
+        end
+
+
+        function onRunModeChanged(app, ~, ~)
+            app.updateRunModeControls();
+        end
+
+        function updateRunModeControls(app)
+            iterative = string(app.RunModeDropDown.Value) == "Analyze windows iteratively";
+
+            app.RunModePanel.Visible = "on";
+
+            if iterative
+                app.IterationWindowLabel.Visible = "on";
+                app.IterationWindow.Visible = "on";
+                app.IterationStepLabel.Visible = "on";
+                app.IterationStep.Visible = "on";
+
+                currentRows = app.ControlGrid.RowHeight;
+                currentRows{9} = 150;
+                app.ControlGrid.RowHeight = currentRows;
+            else
+                app.IterationWindowLabel.Visible = "off";
+                app.IterationWindow.Visible = "off";
+                app.IterationStepLabel.Visible = "off";
+                app.IterationStep.Visible = "off";
+
+                currentRows = app.ControlGrid.RowHeight;
+                currentRows{9} = 72;
+                app.ControlGrid.RowHeight = currentRows;
+            end
         end
 
         function updateMethodPanels(app)
             method = string(app.MethodDropDown.Value);
+            if string(app.RunModeDropDown.Value) == "Analyze windows iteratively"
+                runModeHeight = 150;
+            else
+                runModeHeight = 72;
+            end
 
-            if method == "Default approach"
+            baseRows = {48, 32, 42, 42, 42, 32, 42, 42, runModeHeight};
+
+            if method == "Original detector"
                 app.CCPanel.Visible = "on";
                 app.TFPanel.Visible = "off";
+
+                app.ShowOriginalCheck.Visible = "on";
+                app.ShowOriginalCheck.Enable = "on";
+                app.ShowStephenCheck.Visible = "off";
+                app.ShowLVFACheck.Visible = "on";
+
                 app.ResidualAxes.Visible = "off";
-            elseif method == "Time-frequency approach"
+                app.PlotGrid.RowHeight = {44, '1x', 0};
+                app.ControlGrid.RowHeight = [baseRows, {560, 0, 48, 80}];
+
+            elseif method == "Stephen time-frequency"
                 app.CCPanel.Visible = "off";
                 app.TFPanel.Visible = "on";
+
+                app.ShowOriginalCheck.Visible = "off";
+                app.ShowStephenCheck.Visible = "on";
+                app.ShowStephenCheck.Enable = "on";
+                app.ShowLVFACheck.Visible = "on";
+
                 app.ResidualAxes.Visible = "on";
+                app.PlotGrid.RowHeight = {44, '2x', '1x'};
+                app.ControlGrid.RowHeight = [baseRows, {0, 390, 48, 80}];
+
             else
                 app.CCPanel.Visible = "on";
                 app.TFPanel.Visible = "on";
+
+                app.ShowOriginalCheck.Visible = "on";
+                app.ShowOriginalCheck.Enable = "on";
+                app.ShowStephenCheck.Visible = "on";
+                app.ShowStephenCheck.Enable = "on";
+                app.ShowLVFACheck.Visible = "on";
+
                 app.ResidualAxes.Visible = "on";
+                app.PlotGrid.RowHeight = {44, '2x', '1x'};
+                app.ControlGrid.RowHeight = [baseRows, {560, 390, 48, 80}];
             end
         end
 
@@ -238,6 +526,10 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 if isfinite(dt) && dt > 0
                     app.Fs = 1 / dt;
                     app.FsEdit.Value = app.Fs;
+
+                    if app.StephenHighFreq.Value > app.Fs / 2
+                        app.StephenHighFreq.Value = app.Fs / 2;
+                    end
                 end
             end
         end
@@ -313,10 +605,22 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 app.markAnalysisRange();
 
                 method = string(app.MethodDropDown.Value);
+                app.updateResultsLayout();
 
-                if method == "Default approach"
+                if method == "Original detector"
+                    app.ShowOriginalCheck.Value = false;
+                elseif method == "Stephen time-frequency"
+                    app.ShowStephenCheck.Value = false;
+                else
+                    app.ShowOriginalCheck.Value = false;
+                    app.ShowStephenCheck.Value = false;
+                end
+
+                app.refreshSignalDisplay();
+
+                if method == "Original detector"
                     app.runCC(signalSegment, timeSegment);
-                elseif method == "Time-frequency approach"
+                elseif method == "Stephen time-frequency"
                     app.runTF(signalSegment, timeSegment);
                 else
                     app.runCC(signalSegment, timeSegment);
@@ -333,124 +637,291 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         function runCC(app, signalSegment, timeSegment)
             params = app.buildParams();
 
-            api = py.importlib.import_module('gui.api.detection_api');
-            py.importlib.reload(api);
+            if string(app.RunModeDropDown.Value) == "Analyze full range"
+                api = py.importlib.import_module('gui.api.detection_api');
+                py.importlib.reload(api);
 
-            result = api.detect_from_signal( ...
-                py.numpy.array(signalSegment), ...
-                app.Fs, ...
-                params, ...
-                true);
+                result = api.detect_from_signal( ...
+                    py.numpy.array(signalSegment), ...
+                    app.Fs, ...
+                    params, ...
+                    true);
 
-            seconds = result{'detected_seconds'};
+                seconds = result{'detected_seconds'};
 
-            onset = app.toAbsoluteTime(app.pyValue(seconds{'onset'}), timeSegment);
-            transition = app.toAbsoluteTime(app.pyValue(seconds{'transition'}), timeSegment);
-            ending = app.toAbsoluteTime(app.pyValue(seconds{'termination'}), timeSegment);
+                onset = app.toAbsoluteTime(app.pyValue(seconds{'onset'}), timeSegment);
+                transition = app.toAbsoluteTime(app.pyValue(seconds{'transition'}), timeSegment);
+                ending = app.toAbsoluteTime(app.pyValue(seconds{'termination'}), timeSegment);
 
-            app.addMarker(onset, "Onset");
-            app.addMarker(transition, "Transition");
-            app.addMarker(ending, "End");
+                app.LastOriginalOnset = onset;
+                app.LastOriginalTransition = transition;
+                app.LastOriginalEnd = ending;
+                app.LastOriginalOnsets = [];
+                app.LastOriginalTransitions = [];
+                app.LastOriginalEnds = [];
 
-            app.OnsetResult.Text = app.formatTime("Onset", onset);
-            app.TransitionResult.Text = app.formatTime("Transition", transition);
-            app.TerminationResult.Text = app.formatTime("End", ending);
-        end
+                app.ShowOriginalCheck.Enable = "on";
+                app.ShowOriginalCheck.Value = true;
+                if app.ShowOriginalCheck.Value
+                    app.addMarker(onset, "Onset", "original");
+                    app.addMarker(transition, "Transition", "original");
+                    app.addMarker(ending, "End", "original");
+                end
 
-        function runTF(app, signalSegment, timeSegment)
-            maxChanges = str2double(string(app.TFMaxChanges.Value));
-            downsampleFactor = str2double(string(app.TFDownsample.Value));
-            lowFreq = str2double(string(app.TFLowFreq.Value));
-            highFreq = str2double(string(app.TFHighFreq.Value));
-            minDistance = str2double(string(app.TFMinDistance.Value));
-            scanWindow = str2double(string(app.TFScanWindow.Value));
-            scanStep = str2double(string(app.TFScanStep.Value));
+                app.OnsetResult.Text = app.formatTime("Onset", onset);
+                app.TransitionResult.Text = app.formatTime("Transition", transition);
+                app.TerminationResult.Text = app.formatTime("End", ending);
 
-            values = [ ...
-                maxChanges, ...
-                downsampleFactor, ...
-                lowFreq, ...
-                highFreq, ...
-                minDistance, ...
-                scanWindow, ...
-                scanStep];
-
-            if any(~isfinite(values))
-                error("Enter all Time-frequency settings before running detection.");
+                app.OriginalSummaryLabel.Text = "Full-range result";
+                app.OriginalResultData = { ...
+                    'Full range', ...
+                    char(app.displayRange(timeSegment(1), timeSegment(end))), ...
+                    char(app.displayTime(onset)), ...
+                    char(app.displayTime(transition)), ...
+                    char(app.displayTime(ending))};
+                app.OriginalResultsTable.Data = app.OriginalResultData;
+                app.showOriginalResultsTable();
+                return
             end
 
-            statistic = string(app.TFStatistic.Value);
-            if statistic == "Select..."
-                error("Choose a findchangepts statistic before running detection.");
-            end
+            scanWindow = str2double(string(app.IterationWindow.Value));
+            scanStep = str2double(string(app.IterationStep.Value));
 
-            if maxChanges < 1 || maxChanges ~= round(maxChanges)
-                error("Max changes must be a positive whole number.");
-            end
-
-            if downsampleFactor < 1 || downsampleFactor ~= round(downsampleFactor)
-                error("Downsample factor must be a positive whole number.");
-            end
-
-            if minDistance < 1 || minDistance ~= round(minDistance)
-                error("Minimum distance must be a positive whole number.");
-            end
-
-            if lowFreq < 0 || highFreq <= lowFreq
-                error("High frequency must be greater than low frequency.");
-            end
-
-            if highFreq >= app.Fs / 2
-                error("High frequency must be below half the sampling rate (" + ...
-                    sprintf("%.1f Hz", app.Fs / 2) + ").");
-            end
-
-            if scanWindow <= 0 || scanStep <= 0
-                error("Scan window and scan step must be greater than zero.");
+            if ~isfinite(scanWindow) || ~isfinite(scanStep) || ...
+                    scanWindow <= 0 || scanStep <= 0
+                error("Enter positive Iteration window and Iteration step values.");
             end
 
             duration = timeSegment(end) - timeSegment(1);
             if scanWindow > duration
-                error("Scan window cannot be longer than the selected analysis range.");
+                error("Iteration window cannot be longer than the selected analysis range.");
             end
 
-            result = runIterativeChangePoints( ...
+            result = runIterativeDefaultDetection( ...
                 signalSegment, ...
                 timeSegment, ...
                 app.Fs, ...
-                maxChanges, ...
-                downsampleFactor, ...
-                [lowFreq highFreq], ...
-                statistic, ...
-                minDistance, ...
+                params, ...
                 scanWindow, ...
                 scanStep);
 
-            for k = 1:numel(result.selectedTimes)
-                app.addMarker(result.selectedTimes(k), "CP" + k);
+            app.ShowOriginalCheck.Value = false;
+            app.ShowStephenCheck.Value = false;
+            app.ShowOriginalCheck.Enable = "on";
+            app.ShowStephenCheck.Enable = "on";
+
+            app.LastOriginalOnset = NaN;
+            app.LastOriginalTransition = NaN;
+            app.LastOriginalEnd = NaN;
+            app.LastOriginalOnsets = result.onsets(:);
+            app.LastOriginalTransitions = result.transitions(:);
+            app.LastOriginalEnds = result.ends(:);
+            app.ShowOriginalCheck.Enable = "on";
+            app.ShowOriginalCheck.Value = true;
+
+            if app.ShowOriginalCheck.Value
+                for k = 1:numel(result.onsets)
+                    app.addMarker(result.onsets(k), "O" + k, "original");
+                end
+
+                for k = 1:numel(result.transitions)
+                    app.addMarker(result.transitions(k), "T" + k, "original");
+                end
+
+                for k = 1:numel(result.ends)
+                    app.addMarker(result.ends(k), "E" + k, "original");
+                end
             end
 
-            app.TFResult.Text = ...
-                "Detected changes: " + string(numel(result.selectedTimes)) + ...
-                " across " + string(result.windowCount) + " windows";
+            nWindows = result.windowCount;
+            nOnset = sum(arrayfun(@(x) isfinite(x.onset), result.windowResults));
+            nTransition = sum(arrayfun(@(x) isfinite(x.transition), result.windowResults));
+            nEnd = sum(arrayfun(@(x) isfinite(x.endTimeDetected), result.windowResults));
 
-            cla(app.ResidualAxes);
-            plot(app.ResidualAxes, result.changeCounts, result.meanResiduals, "-o");
-            hold(app.ResidualAxes, "on");
+            app.OnsetResult.Text = "Onset returned: " + nOnset + " / " + nWindows + " windows";
+            app.TransitionResult.Text = "Transition returned: " + nTransition + " / " + nWindows + " windows";
+            app.TerminationResult.Text = "End returned: " + nEnd + " / " + nWindows + " windows";
 
-            if isfinite(result.medianSelectedPerWindow)
-                xline(app.ResidualAxes, ...
-                    result.medianSelectedPerWindow, ...
-                    "--", ...
-                    "Median selected/window");
+            app.OriginalSummaryLabel.Text = ...
+                nWindows + " windows | " + ...
+                sprintf("%.1f s window | %.1f s step", ...
+                    result.scanWindowSeconds, result.scanStepSeconds);
+
+            tableData = cell(nWindows, 5);
+            for w = 1:nWindows
+                wr = result.windowResults(w);
+                tableData{w,1} = char("W" + w);
+                tableData{w,2} = char(app.displayRange(wr.startTime, wr.endTime));
+                tableData{w,3} = char(app.displayTime(wr.onset));
+                tableData{w,4} = char(app.displayTime(wr.transition));
+                tableData{w,5} = char(app.displayTime(wr.endTimeDetected));
             end
 
-            hold(app.ResidualAxes, "off");
+            app.OriginalResultData = tableData;
+            app.OriginalResultsTable.Data = tableData;
+            app.showOriginalResultsTable();
+        end
 
-            xlabel(app.ResidualAxes, "Change points per window");
-            ylabel(app.ResidualAxes, "Mean residual");
-            title(app.ResidualAxes, "Fit");
-            grid(app.ResidualAxes, "on");
+        function runTF(app, signalSegment, timeSegment)
+            params = struct();
+            params.emdCutoff = app.StephenEMDCutoff.Value;
+            params.lowFreq = app.StephenLowFreq.Value;
+            params.highFreq = app.StephenHighFreq.Value;
+            params.voicesPerOctave = app.StephenVoices.Value;
+            params.minChanges = app.StephenMinChanges.Value;
+            params.maxChanges = app.StephenMaxChanges.Value;
+            params.statistic = string(app.StephenStatistic.Value);
+            params.minSpacing = app.StephenMinSpacing.Value;
+
+            if params.emdCutoff <= 0
+                error("EMD cutoff must be greater than zero.");
+            end
+
+            if params.lowFreq <= 0 || params.highFreq <= params.lowFreq
+                error("Frequency range must have High freq greater than Low freq.");
+            end
+
+            if params.highFreq > app.Fs / 2
+                error("High frequency cannot exceed half the sampling rate (" + ...
+                    sprintf("%.1f Hz", app.Fs / 2) + ").");
+            end
+
+            if params.voicesPerOctave < 1 || params.voicesPerOctave ~= round(params.voicesPerOctave)
+                error("Voices per octave must be a positive whole number.");
+            end
+
+            if params.minChanges < 1 || params.maxChanges < params.minChanges || ...
+                    params.minChanges ~= round(params.minChanges) || ...
+                    params.maxChanges ~= round(params.maxChanges)
+                error("Candidate changepoint range must contain positive whole numbers.");
+            end
+
+            if params.minSpacing < 0
+                error("Minimum spacing cannot be negative.");
+            end
+
+            if string(app.RunModeDropDown.Value) == "Analyze full range"
+                result = runStephenMethod( ...
+                    signalSegment, ...
+                    timeSegment, ...
+                    app.Fs, ...
+                    params);
+
+                app.LastStephenTimes = result.changeTimes(:);
+                app.ShowStephenCheck.Enable = "on";
+                app.ShowStephenCheck.Enable = "on";
+                app.ShowStephenCheck.Value = true;
+
+                if app.ShowStephenCheck.Value
+                    for k = 1:numel(result.changeTimes)
+                        app.addMarker(result.changeTimes(k), "CP" + k, "stephen");
+                    end
+                end
+
+                app.TFResult.Text = app.formatStephenTimes(result.changeTimes, ...
+                    "Selected fit: " + string(result.selectedMaxChanges));
+
+                app.StephenSummaryLabel.Text = ...
+                    "Full-range result | Selected fit: " + string(result.selectedMaxChanges);
+
+                cpText = "N/A";
+                if ~isempty(result.changeTimes)
+                    parts = strings(numel(result.changeTimes),1);
+                    for kk = 1:numel(result.changeTimes)
+                        parts(kk) = sprintf("%.2f s", result.changeTimes(kk));
+                    end
+                    cpText = strjoin(parts, ", ");
+                end
+
+                app.StephenResultData = { ...
+                    'Full range', ...
+                    char(app.displayRange(timeSegment(1), timeSegment(end))), ...
+                    numel(result.changeTimes), ...
+                    char(cpText)};
+                app.StephenResultsTable.Data = app.StephenResultData;
+                app.showStephenResultsTable();
+
+                cla(app.ResidualAxes);
+                plot(app.ResidualAxes, result.candidateCounts, result.residuals, "-o");
+                hold(app.ResidualAxes, "on");
+                xline(app.ResidualAxes, result.selectedMaxChanges, "--", "Selected");
+                hold(app.ResidualAxes, "off");
+
+                xlabel(app.ResidualAxes, "Maximum changepoints");
+                ylabel(app.ResidualAxes, "Residual");
+                title(app.ResidualAxes, "Residual knee");
+                grid(app.ResidualAxes, "on");
+            else
+                iterationWindow = str2double(string(app.IterationWindow.Value));
+                iterationStep = str2double(string(app.IterationStep.Value));
+
+                if ~isfinite(iterationWindow) || ~isfinite(iterationStep) || ...
+                        iterationWindow <= 0 || iterationStep <= 0
+                    error("Enter positive Iteration window and Iteration step values.");
+                end
+
+                duration = timeSegment(end) - timeSegment(1);
+                if iterationWindow > duration
+                    error("Iteration window cannot be longer than the selected analysis range.");
+                end
+
+                result = runIterativeStephenMethod( ...
+                    signalSegment, ...
+                    timeSegment, ...
+                    app.Fs, ...
+                    params, ...
+                    iterationWindow, ...
+                    iterationStep);
+
+                app.LastStephenTimes = result.changeTimes(:);
+                app.ShowStephenCheck.Value = true;
+
+                if app.ShowStephenCheck.Value
+                    for k = 1:numel(result.changeTimes)
+                        app.addMarker(result.changeTimes(k), "CP" + k, "stephen");
+                    end
+                end
+
+                app.TFResult.Text = app.formatStephenTimes(result.changeTimes, ...
+                    string(result.windowCount) + " windows");
+
+                app.StephenSummaryLabel.Text = ...
+                    result.windowCount + " windows | " + ...
+                    sprintf("%.1f s window | %.1f s step", ...
+                        result.iterationWindowSeconds, result.iterationStepSeconds);
+
+                tableData = cell(result.windowCount, 4);
+                for w = 1:result.windowCount
+                    wr = result.windowResults(w);
+                    tableData{w,1} = char("W" + w);
+                    tableData{w,2} = char(app.displayRange(wr.startTime, wr.endTime));
+                    tableData{w,3} = wr.changeCount;
+
+                    if isempty(wr.changeTimes)
+                        tableData{w,4} = 'N/A';
+                    else
+                        parts = strings(numel(wr.changeTimes),1);
+                        for kk = 1:numel(wr.changeTimes)
+                            parts(kk) = sprintf("%.2f s", wr.changeTimes(kk));
+                        end
+                        tableData{w,4} = char(strjoin(parts, ", "));
+                    end
+                end
+
+                app.StephenResultData = tableData;
+                app.StephenResultsTable.Data = tableData;
+                app.showStephenResultsTable();
+
+                cla(app.ResidualAxes);
+                xlabel(app.ResidualAxes, "Window");
+                ylabel(app.ResidualAxes, "Selected changepoints");
+                title(app.ResidualAxes, "Changepoints selected by window");
+                if ~isempty(result.selectedPerWindow)
+                    plot(app.ResidualAxes, 1:numel(result.selectedPerWindow), ...
+                        result.selectedPerWindow, "-o");
+                    grid(app.ResidualAxes, "on");
+                end
+            end
         end
 
         function params = buildParams(app)
@@ -520,8 +991,13 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             plot(app.Axes, app.Time, app.Signal);
             hold(app.Axes, "on");
 
-            for k = 1:numel(app.LVFATimes)
-                xline(app.Axes, app.LVFATimes(k), "-", "LVFA");
+            if ~isempty(app.ShowLVFACheck) && isvalid(app.ShowLVFACheck) && ...
+                    app.ShowLVFACheck.Value
+                for k = 1:numel(app.LVFATimes)
+                    xline(app.Axes, app.LVFATimes(k), "-", "LVFA", ...
+                        "Color", [0.4660 0.6740 0.1880], ...
+                        "LineWidth", 1.4);
+                end
             end
 
             hold(app.Axes, "off");
@@ -544,34 +1020,52 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             hold(app.Axes, "off");
         end
 
-        function addMarker(app, t, labelText)
-            if isempty(t) || isnan(t)
+        function addMarker(app, t, labelText, source)
+            if nargin < 4
+                source = "original";
+            end
+
+            if isempty(t) || ~isfinite(t)
                 return
             end
 
             labelText = string(labelText);
+            source = string(source);
 
-            if startsWith(labelText, "CP")
-                xline(app.Axes, t, "--");
+            if source == "stephen"
+                markerColor = [0.8500 0.3250 0.0980];
+            else
+                markerColor = [0 0.4470 0.7410];
+            end
 
-                cpNumber = str2double(extractAfter(labelText, "CP"));
-                if ~isfinite(cpNumber)
-                    cpNumber = 1;
+            isNumbered = ~isempty(regexp(char(labelText), '^(CP|O|T|E)\d+$', 'once'));
+
+            if isNumbered
+                xline(app.Axes, t, "--", ...
+                    "Color", markerColor, ...
+                    "LineWidth", 1.3);
+
+                numberText = regexp(char(labelText), '\d+$', 'match', 'once');
+                markerNumber = str2double(numberText);
+                if ~isfinite(markerNumber)
+                    markerNumber = 1;
                 end
 
                 yLimits = app.Axes.YLim;
                 yRange = yLimits(2) - yLimits(1);
-
-                level = mod(cpNumber - 1, 4);
+                level = mod(markerNumber - 1, 4);
                 y = yLimits(2) - (0.06 + 0.08 * level) * yRange;
 
                 text(app.Axes, t, y, labelText, ...
+                    "Color", markerColor, ...
                     "Rotation", 90, ...
                     "HorizontalAlignment", "left", ...
                     "VerticalAlignment", "middle", ...
                     "Clipping", "on");
             else
-                xline(app.Axes, t, "--", labelText);
+                xline(app.Axes, t, "--", labelText, ...
+                    "Color", markerColor, ...
+                    "LineWidth", 1.3);
             end
         end
 
@@ -591,11 +1085,61 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             end
         end
 
+        function textValue = formatStephenTimes(~, changeTimes, suffix)
+            if nargin < 3
+                suffix = "";
+            end
+
+            changeTimes = double(changeTimes(:));
+
+            if isempty(changeTimes)
+                textValue = "No changepoints detected";
+                return
+            end
+
+            pieces = strings(numel(changeTimes), 1);
+            for k = 1:numel(changeTimes)
+                pieces(k) = "CP" + k + ": " + sprintf("%.2f s", changeTimes(k));
+            end
+
+            textValue = strjoin(pieces, "   ");
+
+            if strlength(string(suffix)) > 0
+                textValue = textValue + "   |   " + string(suffix);
+            end
+        end
+
         function clearResults(app)
             app.OnsetResult.Text = "Onset: --";
             app.TransitionResult.Text = "Transition: --";
             app.TerminationResult.Text = "End: --";
-            app.TFResult.Text = "Selected changes: --";
+            app.TFResult.Text = "No changepoints yet";
+
+            app.OriginalSummaryLabel.Text = "No results yet";
+            app.StephenSummaryLabel.Text = "No results yet";
+            app.OriginalResultData = cell(0,5);
+            app.StephenResultData = cell(0,4);
+            app.OriginalResultsTable.Data = app.OriginalResultData;
+            app.StephenResultsTable.Data = app.StephenResultData;
+            app.hideResultTables();
+
+            app.LastOriginalOnset = NaN;
+            app.LastOriginalTransition = NaN;
+            app.LastOriginalEnd = NaN;
+            app.LastOriginalOnsets = [];
+            app.LastOriginalTransitions = [];
+            app.LastOriginalEnds = [];
+            app.LastStephenTimes = [];
+
+            if isempty(app.LVFATimes)
+                app.LoadedAnnotationResult.Text = "LVFA: not present";
+            else
+                parts = strings(numel(app.LVFATimes), 1);
+                for k = 1:numel(app.LVFATimes)
+                    parts(k) = sprintf("%.2f s", app.LVFATimes(k));
+                end
+                app.LoadedAnnotationResult.Text = "LVFA: " + strjoin(parts, ", ");
+            end
         end
 
         function onReset(app, ~, ~)
@@ -606,6 +1150,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             end
 
             app.clearResults();
+            app.updateRunModeControls();
             cla(app.ResidualAxes);
             app.StatusLabel.Text = "Defaults restored.";
         end
@@ -616,8 +1161,8 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "Position", [80 60 1380 860]);
 
             app.Grid = uigridlayout(app.UIFigure, [2 2]);
-            app.Grid.RowHeight = {'1x', 145};
-            app.Grid.ColumnWidth = {400, '1x'};
+            app.Grid.RowHeight = {'1x', 430};
+            app.Grid.ColumnWidth = {430, '1x'};
             app.Grid.Padding = [10 10 10 10];
             app.Grid.RowSpacing = 10;
             app.Grid.ColumnSpacing = 10;
@@ -630,23 +1175,23 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
             app.ControlContent = uipanel(app.LeftPanel, ...
                 "BorderType", "none", ...
-                "Position", [0 0 370 1510]);
+                "Position", [0 0 400 2100]);
 
-            left = uigridlayout(app.ControlContent, [12 1]);
-            left.RowHeight = {48, 32, 42, 42, 42, 32, 42, 42, 500, 325, 48, 70};
-            left.RowSpacing = 10;
-            left.Padding = [0 0 0 0];
+            app.ControlGrid = uigridlayout(app.ControlContent, [13 1]);
+            app.ControlGrid.RowHeight = {48, 32, 42, 42, 42, 32, 42, 42, 150, 560, 0, 48, 80};
+            app.ControlGrid.RowSpacing = 10;
+            app.ControlGrid.Padding = [0 0 0 0];
 
-            app.LoadButton = uibutton(left, ...
+            app.LoadButton = uibutton(app.ControlGrid, ...
                 "Text", "Load File", ...
                 "FontSize", 14, ...
                 "ButtonPushedFcn", @app.onLoad);
 
-            app.FileLabel = uilabel(left, ...
+            app.FileLabel = uilabel(app.ControlGrid, ...
                 "Text", "No file loaded", ...
                 "FontSize", 13);
 
-            row = uigridlayout(left, [1 2]);
+            row = uigridlayout(app.ControlGrid, [1 2]);
             row.ColumnWidth = {105, '1x'};
             row.Padding = [0 0 0 0];
             row.ColumnSpacing = 10;
@@ -656,7 +1201,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "FontSize", 13, ...
                 "ValueChangedFcn", @app.onRecordingChanged);
 
-            row = uigridlayout(left, [1 2]);
+            row = uigridlayout(app.ControlGrid, [1 2]);
             row.ColumnWidth = {105, '1x'};
             row.Padding = [0 0 0 0];
             row.ColumnSpacing = 10;
@@ -666,43 +1211,59 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "FontSize", 13, ...
                 "ValueChangedFcn", @app.onChannelChanged);
 
-            row = uigridlayout(left, [1 2]);
+            row = uigridlayout(app.ControlGrid, [1 2]);
             row.ColumnWidth = {105, '1x'};
             row.Padding = [0 0 0 0];
             row.ColumnSpacing = 10;
             uilabel(row, "Text", "Method", "FontSize", 13);
             app.MethodDropDown = uidropdown(row, ...
-                "Items", ["Default approach", "Time-frequency approach", "Compare methods"], ...
-                "Value", "Default approach", ...
+                "Items", ["Original detector", "Stephen time-frequency", "Compare methods"], ...
+                "Value", "Original detector", ...
                 "FontSize", 13, ...
                 "ValueChangedFcn", @app.onMethodChanged);
 
-            uilabel(left, "Text", "Analysis range", ...
+            uilabel(app.ControlGrid, "Text", "Analysis range", ...
                 "FontWeight", "bold", ...
                 "FontSize", 13);
 
-            row = uigridlayout(left, [1 2]);
+            row = uigridlayout(app.ControlGrid, [1 2]);
             row.ColumnWidth = {105, '1x'};
             row.Padding = [0 0 0 0];
             row.ColumnSpacing = 10;
             uilabel(row, "Text", "Start (s)", "FontSize", 13);
             app.StartTimeEdit = uieditfield(row, "numeric", "FontSize", 13);
 
-            row = uigridlayout(left, [1 2]);
+            row = uigridlayout(app.ControlGrid, [1 2]);
             row.ColumnWidth = {105, '1x'};
             row.Padding = [0 0 0 0];
             row.ColumnSpacing = 10;
             uilabel(row, "Text", "End (s)", "FontSize", 13);
             app.EndTimeEdit = uieditfield(row, "numeric", "FontSize", 13);
 
-            methodsGrid = uigridlayout(left, [1 1]);
-            methodsGrid.Padding = [0 0 0 0];
+            app.RunModePanel = uipanel(app.ControlGrid, "Title", "Run mode");
+            runModeGrid = uigridlayout(app.RunModePanel, [3 2]);
+            runModeGrid.RowHeight = {32, 32, 32};
+            runModeGrid.ColumnWidth = {145, '1x'};
+            runModeGrid.Padding = [12 10 12 10];
+            runModeGrid.RowSpacing = 7;
 
-            app.CCPanel = uipanel(methodsGrid, "Title", "Default approach");
+            uilabel(runModeGrid, "Text", "Mode");
+            app.RunModeDropDown = uidropdown(runModeGrid, ...
+                "Items", ["Analyze full range", "Analyze windows iteratively"], ...
+                "Value", "Analyze full range", ...
+                "ValueChangedFcn", @app.onRunModeChanged);
+
+            app.IterationWindowLabel = uilabel(runModeGrid, "Text", "Iteration window (s)");
+            app.IterationWindow = uieditfield(runModeGrid, "text", "Value", "");
+
+            app.IterationStepLabel = uilabel(runModeGrid, "Text", "Iteration step (s)");
+            app.IterationStep = uieditfield(runModeGrid, "text", "Value", "");
+
+            app.CCPanel = uipanel(app.ControlGrid, "Title", "Original detector");
             cc = uigridlayout(app.CCPanel, [18 2]);
-            cc.RowHeight = repmat({27}, 1, 18);
-            cc.ColumnWidth = {130, '1x'};
-            cc.RowSpacing = 5;
+            cc.RowHeight = repmat({29}, 1, 18);
+            cc.ColumnWidth = {145, '1x'};
+            cc.RowSpacing = 6;
             cc.ColumnSpacing = 10;
             cc.Padding = [12 8 12 8];
 
@@ -747,6 +1308,8 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             featureGrid.Layout.Row = [16 18];
             featureGrid.Layout.Column = [1 2];
             featureGrid.Padding = [0 0 0 0];
+            featureGrid.RowHeight = {28, 28, 28, 28};
+            featureGrid.RowSpacing = 4;
 
             app.RMSCheck = uicheckbox(featureGrid, "Text", "RMS");
             app.ThetaCheck = uicheckbox(featureGrid, "Text", "Theta");
@@ -756,46 +1319,57 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.LLCheck = uicheckbox(featureGrid, "Text", "Line length");
             app.SECheck = uicheckbox(featureGrid, "Text", "Entropy");
 
-            app.TFPanel = uipanel(left, "Title", "Time-frequency approach");
+
+            app.TFPanel = uipanel(app.ControlGrid, "Title", "Stephen time-frequency");
             tf = uigridlayout(app.TFPanel, [8 2]);
-            tf.RowHeight = repmat({32}, 1, 8);
-            tf.ColumnWidth = {135, '1x'};
-            tf.Padding = [12 10 12 10];
-            tf.RowSpacing = 7;
+            tf.RowHeight = repmat({36}, 1, 8);
+            tf.ColumnWidth = {155, '1x'};
+            tf.Padding = [12 14 12 14];
+            tf.RowSpacing = 8;
 
-            uilabel(tf, "Text", "Scan window (s)");
-            app.TFScanWindow = uieditfield(tf, "text", "Value", "");
-
-            uilabel(tf, "Text", "Scan step (s)");
-            app.TFScanStep = uieditfield(tf, "text", "Value", "");
-
-            uilabel(tf, "Text", "Max changes");
-            app.TFMaxChanges = uieditfield(tf, "text", "Value", "");
-
-            uilabel(tf, "Text", "Downsample factor");
-            app.TFDownsample = uieditfield(tf, "text", "Value", "");
+            uilabel(tf, "Text", "EMD cutoff (Hz)");
+            app.StephenEMDCutoff = uieditfield(tf, ...
+                "numeric", "Value", 2, "Limits", [eps Inf]);
 
             uilabel(tf, "Text", "Low freq (Hz)");
-            app.TFLowFreq = uieditfield(tf, "text", "Value", "");
+            app.StephenLowFreq = uieditfield(tf, ...
+                "numeric", "Value", 2, "Limits", [eps Inf]);
 
             uilabel(tf, "Text", "High freq (Hz)");
-            app.TFHighFreq = uieditfield(tf, "text", "Value", "");
+            app.StephenHighFreq = uieditfield(tf, ...
+                "numeric", "Value", 256, "Limits", [eps Inf]);
+
+            uilabel(tf, "Text", "Voices / octave");
+            app.StephenVoices = uieditfield(tf, ...
+                "numeric", "Value", 5, "Limits", [1 Inf], ...
+                "RoundFractionalValues", "on");
+
+            uilabel(tf, "Text", "Min candidate CPs");
+            app.StephenMinChanges = uieditfield(tf, ...
+                "numeric", "Value", 2, "Limits", [1 Inf], ...
+                "RoundFractionalValues", "on");
+
+            uilabel(tf, "Text", "Max candidate CPs");
+            app.StephenMaxChanges = uieditfield(tf, ...
+                "numeric", "Value", 9, "Limits", [1 Inf], ...
+                "RoundFractionalValues", "on");
 
             uilabel(tf, "Text", "Statistic");
-            app.TFStatistic = uidropdown(tf, ...
-                "Items", ["Select...", "mean", "rms", "std", "linear"], ...
-                "Value", "Select...");
+            app.StephenStatistic = uidropdown(tf, ...
+                "Items", ["mean", "rms", "std", "linear"], ...
+                "Value", "mean");
 
-            uilabel(tf, "Text", "Min distance");
-            app.TFMinDistance = uieditfield(tf, "text", "Value", "");
+            uilabel(tf, "Text", "Min spacing (s)");
+            app.StephenMinSpacing = uieditfield(tf, ...
+                "numeric", "Value", 2, "Limits", [0 Inf]);
 
-            app.RunButton = uibutton(left, ...
+            app.RunButton = uibutton(app.ControlGrid, ...
                 "Text", "Run Detection", ...
                 "FontSize", 14, ...
                 "FontWeight", "bold", ...
                 "ButtonPushedFcn", @app.onRun);
 
-            bottom = uigridlayout(left, [2 1]);
+            bottom = uigridlayout(app.ControlGrid, [2 1]);
             bottom.RowHeight = {34, 28};
             bottom.Padding = [0 0 0 0];
             bottom.RowSpacing = 8;
@@ -812,27 +1386,137 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.PlotPanel.Layout.Row = 1;
             app.PlotPanel.Layout.Column = 2;
 
-            plotGrid = uigridlayout(app.PlotPanel, [2 1]);
-            plotGrid.RowHeight = {'2x', '1x'};
-            plotGrid.Padding = [10 8 10 10];
-            plotGrid.RowSpacing = 10;
+            app.PlotGrid = uigridlayout(app.PlotPanel, [3 1]);
+            app.PlotGrid.RowHeight = {44, '1x', 0};
+            app.PlotGrid.Padding = [10 8 10 10];
+            app.PlotGrid.RowSpacing = 10;
 
-            app.Axes = uiaxes(plotGrid);
-            app.ResidualAxes = uiaxes(plotGrid);
+            app.DisplayPanel = uipanel(app.PlotGrid, ...
+                "BorderType", "none");
+
+            displayGrid = uigridlayout(app.DisplayPanel, [1 4]);
+            displayGrid.ColumnWidth = {65, 150, 170, 150};
+            displayGrid.Padding = [0 0 0 0];
+            displayGrid.ColumnSpacing = 12;
+
+            uilabel(displayGrid, ...
+                "Text", "Display", ...
+                "FontWeight", "bold");
+
+            app.ShowOriginalCheck = uicheckbox(displayGrid, ...
+                "Text", "Original detector", ...
+                "Value", false, ...
+                "Enable", "on", ...
+                "FontColor", [0 0.4470 0.7410], ...
+                "ValueChangedFcn", @app.onDisplayChanged);
+
+            app.ShowStephenCheck = uicheckbox(displayGrid, ...
+                "Text", "Stephen time-frequency", ...
+                "Value", false, ...
+                "Enable", "on", ...
+                "FontColor", [0.8500 0.3250 0.0980], ...
+                "ValueChangedFcn", @app.onDisplayChanged);
+
+            app.ShowLVFACheck = uicheckbox(displayGrid, ...
+                "Text", "Loaded LVFA", ...
+                "Value", true, ...
+                "FontColor", [0.4660 0.6740 0.1880], ...
+                "ValueChangedFcn", @app.onDisplayChanged);
+
+            app.Axes = uiaxes(app.PlotGrid);
+            app.ResidualAxes = uiaxes(app.PlotGrid);
 
             app.ResultsPanel = uipanel(app.Grid, "Title", "Results");
             app.ResultsPanel.Layout.Row = 2;
             app.ResultsPanel.Layout.Column = 2;
 
-            results = uigridlayout(app.ResultsPanel, [2 2]);
-            results.Padding = [14 12 14 12];
-            results.RowSpacing = 8;
-            results.ColumnSpacing = 20;
+            app.ResultsGrid = uigridlayout(app.ResultsPanel, [1 3]);
+            app.ResultsGrid.ColumnWidth = {'2x', 0, '1x'};
+            app.ResultsGrid.Padding = [10 8 10 8];
+            app.ResultsGrid.ColumnSpacing = 10;
 
-            app.OnsetResult = uilabel(results, "Text", "Onset: --", "FontSize", 16);
-            app.TransitionResult = uilabel(results, "Text", "Transition: --", "FontSize", 16);
-            app.TerminationResult = uilabel(results, "Text", "End: --", "FontSize", 16);
-            app.TFResult = uilabel(results, "Text", "Selected changes: --", "FontSize", 16);
+            app.OriginalResultsPanel = uipanel(app.ResultsGrid, ...
+                "Title", "Original detector", ...
+                "Scrollable", "on");
+            app.OriginalResultsGrid = uigridlayout(app.OriginalResultsPanel, [4 1]);
+            app.OriginalResultsGrid.RowHeight = {34, 0, 0, 0};
+            app.OriginalResultsGrid.Padding = [12 10 12 10];
+            app.OriginalResultsGrid.RowSpacing = 10;
+
+            app.OriginalSummaryLabel = uilabel(app.OriginalResultsGrid, ...
+                "Text", "No results yet", ...
+                "FontWeight", "bold", ...
+                "FontSize", 14, ...
+                "WordWrap", "on");
+
+            app.OriginalResultsTable = uitable(app.OriginalResultsGrid, ...
+                "Data", cell(0,5), ...
+                "ColumnName", {"Window", "Time range", "Onset", "Transition", "End"}, ...
+                "RowName", [], ...
+                "Visible", "off");
+            app.OriginalResultsTable.ColumnWidth = {85, 180, 125, 125, 125};
+
+            uilabel(app.OriginalResultsGrid, "Text", "");
+
+            app.OriginalExpandButton = uibutton(app.OriginalResultsGrid, ...
+                "Text", "Expand results", ...
+                "Visible", "off", ...
+                "ButtonPushedFcn", @app.onExpandOriginalResults);
+
+            % Hidden compatibility labels; parented outside the result grid
+            % so they do not consume layout rows.
+            app.OnsetResult = uilabel(app.UIFigure, ...
+                "Visible", "off", ...
+                "Position", [1 1 1 1]);
+            app.TransitionResult = uilabel(app.UIFigure, ...
+                "Visible", "off", ...
+                "Position", [1 1 1 1]);
+            app.TerminationResult = uilabel(app.UIFigure, ...
+                "Visible", "off", ...
+                "Position", [1 1 1 1]);
+
+            app.StephenResultsPanel = uipanel(app.ResultsGrid, ...
+                "Title", "Stephen time-frequency", ...
+                "Scrollable", "on");
+            app.StephenResultsGrid = uigridlayout(app.StephenResultsPanel, [4 1]);
+            app.StephenResultsGrid.RowHeight = {34, 0, 0, 0};
+            app.StephenResultsGrid.Padding = [12 10 12 10];
+            app.StephenResultsGrid.RowSpacing = 10;
+
+            app.StephenSummaryLabel = uilabel(app.StephenResultsGrid, ...
+                "Text", "No results yet", ...
+                "FontWeight", "bold", ...
+                "FontSize", 14, ...
+                "WordWrap", "on");
+
+            app.StephenResultsTable = uitable(app.StephenResultsGrid, ...
+                "Data", cell(0,4), ...
+                "ColumnName", {"Window", "Time range", "CP count", "CP times"}, ...
+                "RowName", [], ...
+                "Visible", "off");
+            app.StephenResultsTable.ColumnWidth = {85, 180, 100, 340};
+
+            uilabel(app.StephenResultsGrid, "Text", "");
+
+            app.StephenExpandButton = uibutton(app.StephenResultsGrid, ...
+                "Text", "Expand results", ...
+                "Visible", "off", ...
+                "ButtonPushedFcn", @app.onExpandStephenResults);
+
+            % Hidden compatibility label; parented outside the result grid.
+            app.TFResult = uilabel(app.UIFigure, ...
+                "Visible", "off", ...
+                "Position", [1 1 1 1]);
+
+            app.AnnotationResultsPanel = uipanel(app.ResultsGrid, ...
+                "Title", "Loaded annotation");
+            annotationResults = uigridlayout(app.AnnotationResultsPanel, [1 1]);
+            annotationResults.Padding = [10 6 10 6];
+
+            app.LoadedAnnotationResult = uilabel(annotationResults, ...
+                "Text", "LVFA: --", ...
+                "FontSize", 13, ...
+                "WordWrap", "on");
         end
     end
 
