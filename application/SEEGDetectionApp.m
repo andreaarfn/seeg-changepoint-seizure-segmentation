@@ -19,8 +19,14 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         OriginalExpandButton matlab.ui.control.Button
         StephenExpandButton matlab.ui.control.Button
         Axes matlab.ui.control.UIAxes
+        FeaturePanel matlab.ui.container.Panel
+        FeatureAxes matlab.ui.control.UIAxes
+        FeaturePhaseDropDown matlab.ui.control.DropDown
+        FeatureDropDown matlab.ui.control.ListBox
+        StephenDiagnosticPanel matlab.ui.container.Panel
         ResidualAxes matlab.ui.control.UIAxes
         PlotGrid matlab.ui.container.GridLayout
+        PlotContentPanel matlab.ui.container.Panel
         ResultsGrid matlab.ui.container.GridLayout
         OriginalResultsGrid matlab.ui.container.GridLayout
         StephenResultsGrid matlab.ui.container.GridLayout
@@ -71,7 +77,6 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         StephenVoices matlab.ui.control.NumericEditField
         StephenMinChanges matlab.ui.control.NumericEditField
         StephenMaxChanges matlab.ui.control.NumericEditField
-        StephenStatistic matlab.ui.control.DropDown
         StephenMinSpacing matlab.ui.control.NumericEditField
 
         OnsetResult matlab.ui.control.Label
@@ -103,6 +108,8 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
         LastStephenTimes = []
         OriginalResultData = cell(0,5)
         StephenResultData = cell(0,4)
+        LastFeatureSignal = []
+        LastFeatureTime = []
     end
 
     methods (Access = private)
@@ -175,7 +182,6 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.StephenVoices.Value = s.voicesPerOctave;
             app.StephenMinChanges.Value = s.minChanges;
             app.StephenMaxChanges.Value = s.maxChanges;
-            app.StephenStatistic.Value = s.statistic;
             app.StephenMinSpacing.Value = s.minSpacing;
         end
 
@@ -252,6 +258,180 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
         function rangeText = displayRange(~, startTime, endTime)
             rangeText = sprintf("%.2f–%.2f s", startTime, endTime);
+        end
+
+
+        function onFeatureViewChanged(app, ~, ~)
+            app.refreshFeatureView();
+        end
+
+        function refreshFeatureView(app)
+            method = string(app.MethodDropDown.Value);
+
+            if ~(method == "Original detector" || method == "Compare methods")
+                return
+            end
+
+            if isempty(app.LastFeatureSignal) || isempty(app.LastFeatureTime)
+                cla(app.FeatureAxes);
+                title(app.FeatureAxes, "Original detector feature view");
+                xlabel(app.FeatureAxes, "Time (s)");
+                ylabel(app.FeatureAxes, "Normalized feature value");
+                grid(app.FeatureAxes, "on");
+                return
+            end
+
+            phaseLabel = string(app.FeaturePhaseDropDown.Value);
+
+            selected = string(app.FeatureDropDown.Value);
+            if isempty(selected)
+                selected = "RMS";
+            end
+
+            allDisplayNames = ["RMS", "Theta", "Alpha", "Beta", "Gamma", ...
+                               "Line length", "Spectral entropy"];
+            allFeatureNames = ["rms", "theta", "alpha", "beta", "gamma", ...
+                               "ll", "se"];
+
+            if any(selected == "All features")
+                displayNames = allDisplayNames;
+                featureNames = allFeatureNames;
+            else
+                displayNames = selected(:).';
+
+                featureNames = strings(size(displayNames));
+                for i = 1:numel(displayNames)
+                    switch displayNames(i)
+                        case "RMS"
+                            featureNames(i) = "rms";
+                        case "Theta"
+                            featureNames(i) = "theta";
+                        case "Alpha"
+                            featureNames(i) = "alpha";
+                        case "Beta"
+                            featureNames(i) = "beta";
+                        case "Gamma"
+                            featureNames(i) = "gamma";
+                        case "Line length"
+                            featureNames(i) = "ll";
+                        case "Spectral entropy"
+                            featureNames(i) = "se";
+                    end
+                end
+            end
+
+            switch phaseLabel
+                case "Onset"
+                    windowSize = max(1, round(app.OnsetWindow.Value * app.Fs / 1000));
+                    stepSize = max(1, round(app.OnsetStep.Value * app.Fs / 1000));
+                case "Transition"
+                    windowSize = max(1, round(app.TransitionWindow.Value * app.Fs / 1000));
+                    stepSize = max(1, round(app.TransitionStep.Value * app.Fs / 1000));
+                otherwise
+                    windowSize = max(1, round(app.TerminationWindow.Value * app.Fs / 1000));
+                    stepSize = max(1, round(app.TerminationStep.Value * app.Fs / 1000));
+            end
+
+            try
+                featureApi = py.importlib.import_module('gui.api.features_api');
+                py.importlib.reload(featureApi);
+
+                pyNames = py.list(cellstr(featureNames));
+
+                result = featureApi.prepare_features( ...
+                    py.numpy.array(app.LastFeatureSignal), ...
+                    app.Fs, ...
+                    int32(windowSize), ...
+                    int32(stepSize), ...
+                    pyNames);
+
+                timeIndices = app.pySequenceToDouble( ...
+                    result{'time_indices'}.tolist());
+
+                matrixArray = result{'feature_matrix'};
+                matrixShape = cellfun(@double, cell(matrixArray.shape));
+                flatValues = app.pySequenceToDouble( ...
+                    matrixArray.reshape(int32(-1)).tolist());
+
+                if isempty(timeIndices) || isempty(flatValues)
+                    cla(app.FeatureAxes);
+                    title(app.FeatureAxes, "No feature values returned");
+                    xlabel(app.FeatureAxes, "Time (s)");
+                    ylabel(app.FeatureAxes, "Normalized feature value");
+                    grid(app.FeatureAxes, "on");
+                    return
+                end
+
+                nRows = matrixShape(1);
+                nCols = matrixShape(2);
+                featureMatrix = reshape(flatValues, [nCols, nRows]).';
+
+                n = min(numel(timeIndices), size(featureMatrix, 1));
+                timeIndices = timeIndices(1:n);
+                featureMatrix = featureMatrix(1:n, :);
+
+                featureStartTime = app.StartTimeEdit.Value;
+                featureEndTime = app.EndTimeEdit.Value;
+                absoluteTimes = featureStartTime + timeIndices ./ app.Fs;
+
+                cla(app.FeatureAxes);
+                hold(app.FeatureAxes, "on");
+
+                for i = 1:size(featureMatrix, 2)
+                    plot(app.FeatureAxes, ...
+                        absoluteTimes, ...
+                        featureMatrix(:, i), ...
+                        "LineWidth", 1.2, ...
+                        "DisplayName", char(displayNames(i)));
+                end
+
+                hold(app.FeatureAxes, "off");
+
+                xlim(app.FeatureAxes, ...
+                    [featureStartTime, featureEndTime]);
+                xlabel(app.FeatureAxes, "Time (s)");
+                ylabel(app.FeatureAxes, "Normalized feature value");
+
+                if numel(displayNames) == 1
+                    title(app.FeatureAxes, ...
+                        "Original detector: " + phaseLabel + ...
+                        " | " + displayNames(1));
+                    legend(app.FeatureAxes, "off");
+                else
+                    title(app.FeatureAxes, ...
+                        "Original detector: " + phaseLabel + ...
+                        " | Selected features");
+                    legend(app.FeatureAxes, ...
+                        "Location", "southwest", ...
+                        "Interpreter", "none");
+                end
+
+                grid(app.FeatureAxes, "on");
+
+            catch ME
+                cla(app.FeatureAxes);
+                title(app.FeatureAxes, "Feature view unavailable");
+                xlabel(app.FeatureAxes, "Time (s)");
+                ylabel(app.FeatureAxes, "Normalized feature value");
+                grid(app.FeatureAxes, "on");
+                app.StatusLabel.Text = "Feature view: " + string(ME.message);
+            end
+        end
+
+        function values = pySequenceToDouble(~, seq)
+            if isequal(class(seq), 'py.NoneType')
+                values = [];
+                return
+            end
+
+            c = cell(py.list(seq));
+            if isempty(c)
+                values = [];
+                return
+            end
+
+            values = cellfun(@double, c);
+            values = values(:);
         end
 
         function onDisplayChanged(app, ~, ~)
@@ -418,6 +598,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.ShowStephenCheck.Value = false;
 
             app.clearResults();
+            cla(app.FeatureAxes);
             cla(app.ResidualAxes);
             app.refreshSignalDisplay();
         end
@@ -472,8 +653,10 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 app.ShowStephenCheck.Visible = "off";
                 app.ShowLVFACheck.Visible = "on";
 
-                app.ResidualAxes.Visible = "off";
-                app.PlotGrid.RowHeight = {44, '1x', 0};
+                app.FeaturePanel.Visible = "on";
+                app.StephenDiagnosticPanel.Visible = "off";
+                app.PlotGrid.RowHeight = {44, 250, 320, 0};
+                app.PlotContentPanel.Position(4) = 640;
                 app.ControlGrid.RowHeight = [baseRows, {560, 0, 48, 80}];
 
             elseif method == "Stephen time-frequency"
@@ -485,9 +668,11 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 app.ShowStephenCheck.Enable = "on";
                 app.ShowLVFACheck.Visible = "on";
 
-                app.ResidualAxes.Visible = "on";
-                app.PlotGrid.RowHeight = {44, '2x', '1x'};
-                app.ControlGrid.RowHeight = [baseRows, {0, 390, 48, 80}];
+                app.FeaturePanel.Visible = "off";
+                app.StephenDiagnosticPanel.Visible = "on";
+                app.PlotGrid.RowHeight = {44, 250, 0, 320};
+                app.PlotContentPanel.Position(4) = 640;
+                app.ControlGrid.RowHeight = [baseRows, {0, 345, 48, 80}];
 
             else
                 app.CCPanel.Visible = "on";
@@ -499,9 +684,11 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 app.ShowStephenCheck.Enable = "on";
                 app.ShowLVFACheck.Visible = "on";
 
-                app.ResidualAxes.Visible = "on";
-                app.PlotGrid.RowHeight = {44, '2x', '1x'};
-                app.ControlGrid.RowHeight = [baseRows, {560, 390, 48, 80}];
+                app.FeaturePanel.Visible = "on";
+                app.StephenDiagnosticPanel.Visible = "on";
+                app.PlotGrid.RowHeight = {44, 250, 320, 320};
+                app.PlotContentPanel.Position(4) = 980;
+                app.ControlGrid.RowHeight = [baseRows, {560, 345, 48, 80}];
             end
         end
 
@@ -625,6 +812,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 else
                     app.runCC(signalSegment, timeSegment);
                     app.runTF(signalSegment, timeSegment);
+                    app.refreshFeatureView();
                 end
 
                 app.StatusLabel.Text = "Detection complete.";
@@ -681,6 +869,10 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                     char(app.displayTime(ending))};
                 app.OriginalResultsTable.Data = app.OriginalResultData;
                 app.showOriginalResultsTable();
+
+                app.LastFeatureSignal = signalSegment(:);
+                app.LastFeatureTime = timeSegment(:);
+                app.refreshFeatureView();
                 return
             end
 
@@ -760,6 +952,10 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.OriginalResultData = tableData;
             app.OriginalResultsTable.Data = tableData;
             app.showOriginalResultsTable();
+
+            app.LastFeatureSignal = signalSegment(:);
+            app.LastFeatureTime = timeSegment(:);
+            app.refreshFeatureView();
         end
 
         function runTF(app, signalSegment, timeSegment)
@@ -770,7 +966,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             params.voicesPerOctave = app.StephenVoices.Value;
             params.minChanges = app.StephenMinChanges.Value;
             params.maxChanges = app.StephenMaxChanges.Value;
-            params.statistic = string(app.StephenStatistic.Value);
+            params.statistic = "mean";
             params.minSpacing = app.StephenMinSpacing.Value;
 
             if params.emdCutoff <= 0
@@ -842,14 +1038,32 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 app.showStephenResultsTable();
 
                 cla(app.ResidualAxes);
-                plot(app.ResidualAxes, result.candidateCounts, result.residuals, "-o");
+
+                candidateCounts = result.candidateCounts(:);
+                residuals = result.residuals(:);
+                valid = isfinite(candidateCounts) & isfinite(residuals);
+
+                if nnz(valid) < 2
+                    error("Stephen changepoint residual curve was not returned correctly.");
+                end
+
+                plot(app.ResidualAxes, ...
+                    candidateCounts(valid), ...
+                    residuals(valid), ...
+                    "-o", ...
+                    "LineWidth", 1.1);
+
                 hold(app.ResidualAxes, "on");
-                xline(app.ResidualAxes, result.selectedMaxChanges, "--", "Selected");
+                xline(app.ResidualAxes, ...
+                    result.selectedMaxChanges, ...
+                    "--", ...
+                    "Selected");
                 hold(app.ResidualAxes, "off");
 
                 xlabel(app.ResidualAxes, "Maximum changepoints");
                 ylabel(app.ResidualAxes, "Residual");
-                title(app.ResidualAxes, "Residual knee");
+                title(app.ResidualAxes, ...
+                    "Knee plot: residual vs. candidate changepoint count");
                 grid(app.ResidualAxes, "on");
             else
                 iterationWindow = str2double(string(app.IterationWindow.Value));
@@ -915,7 +1129,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 cla(app.ResidualAxes);
                 xlabel(app.ResidualAxes, "Window");
                 ylabel(app.ResidualAxes, "Selected changepoints");
-                title(app.ResidualAxes, "Changepoints selected by window");
+                title(app.ResidualAxes, "Stephen method: selected changepoint count by window");
                 if ~isempty(result.selectedPerWindow)
                     plot(app.ResidualAxes, 1:numel(result.selectedPerWindow), ...
                         result.selectedPerWindow, "-o");
@@ -1011,6 +1225,15 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             end
 
             grid(app.Axes, "on");
+
+            method = string(app.MethodDropDown.Value);
+            if method == "Compare methods"
+                title(app.Axes, "Main signal comparison");
+            elseif method == "Original detector"
+                title(app.Axes, "Signal with Original detector output");
+            else
+                title(app.Axes, "Signal with Stephen time-frequency output");
+            end
         end
 
         function markAnalysisRange(app)
@@ -1130,6 +1353,14 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
             app.LastOriginalTransitions = [];
             app.LastOriginalEnds = [];
             app.LastStephenTimes = [];
+            app.LastFeatureSignal = [];
+            app.LastFeatureTime = [];
+
+            cla(app.FeatureAxes);
+            title(app.FeatureAxes, "Original detector feature view");
+            xlabel(app.FeatureAxes, "Time (s)");
+            ylabel(app.FeatureAxes, "Feature value");
+            grid(app.FeatureAxes, "on");
 
             if isempty(app.LVFATimes)
                 app.LoadedAnnotationResult.Text = "LVFA: not present";
@@ -1151,6 +1382,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
             app.clearResults();
             app.updateRunModeControls();
+            cla(app.FeatureAxes);
             cla(app.ResidualAxes);
             app.StatusLabel.Text = "Defaults restored.";
         end
@@ -1161,7 +1393,7 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "Position", [80 60 1380 860]);
 
             app.Grid = uigridlayout(app.UIFigure, [2 2]);
-            app.Grid.RowHeight = {'1x', 430};
+            app.Grid.RowHeight = {'1x', 220};
             app.Grid.ColumnWidth = {430, '1x'};
             app.Grid.Padding = [10 10 10 10];
             app.Grid.RowSpacing = 10;
@@ -1321,8 +1553,8 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
 
 
             app.TFPanel = uipanel(app.ControlGrid, "Title", "Stephen time-frequency");
-            tf = uigridlayout(app.TFPanel, [8 2]);
-            tf.RowHeight = repmat({36}, 1, 8);
+            tf = uigridlayout(app.TFPanel, [7 2]);
+            tf.RowHeight = repmat({36}, 1, 7);
             tf.ColumnWidth = {155, '1x'};
             tf.Padding = [12 14 12 14];
             tf.RowSpacing = 8;
@@ -1354,11 +1586,6 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "numeric", "Value", 9, "Limits", [1 Inf], ...
                 "RoundFractionalValues", "on");
 
-            uilabel(tf, "Text", "Statistic");
-            app.StephenStatistic = uidropdown(tf, ...
-                "Items", ["mean", "rms", "std", "linear"], ...
-                "Value", "mean");
-
             uilabel(tf, "Text", "Min spacing (s)");
             app.StephenMinSpacing = uieditfield(tf, ...
                 "numeric", "Value", 2, "Limits", [0 Inf]);
@@ -1382,12 +1609,18 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "Text", "", ...
                 "WordWrap", "on");
 
-            app.PlotPanel = uipanel(app.Grid, "Title", "Signal");
+            app.PlotPanel = uipanel(app.Grid, ...
+                "Title", "Signal", ...
+                "Scrollable", "on");
             app.PlotPanel.Layout.Row = 1;
             app.PlotPanel.Layout.Column = 2;
 
-            app.PlotGrid = uigridlayout(app.PlotPanel, [3 1]);
-            app.PlotGrid.RowHeight = {44, '1x', 0};
+            app.PlotContentPanel = uipanel(app.PlotPanel, ...
+                "BorderType", "none", ...
+                "Position", [0 0 1500 700]);
+
+            app.PlotGrid = uigridlayout(app.PlotContentPanel, [4 1]);
+            app.PlotGrid.RowHeight = {44, 250, 320, 0};
             app.PlotGrid.Padding = [10 8 10 10];
             app.PlotGrid.RowSpacing = 10;
 
@@ -1423,14 +1656,57 @@ classdef SEEGDetectionApp < matlab.apps.AppBase
                 "FontColor", [0.4660 0.6740 0.1880], ...
                 "ValueChangedFcn", @app.onDisplayChanged);
 
-            app.Axes = uiaxes(app.PlotGrid);
-            app.ResidualAxes = uiaxes(app.PlotGrid);
 
-            app.ResultsPanel = uipanel(app.Grid, "Title", "Results");
+            app.Axes = uiaxes(app.PlotGrid);
+
+            app.FeaturePanel = uipanel(app.PlotGrid, ...
+                "Title", "Original detector — Feature view");
+            featureViewGrid = uigridlayout(app.FeaturePanel, [2 1]);
+            featureViewGrid.RowHeight = {68, '1x'};
+            featureViewGrid.Padding = [8 4 8 6];
+            featureViewGrid.RowSpacing = 6;
+
+            featureControls = uigridlayout(featureViewGrid, [1 4]);
+            featureControls.ColumnWidth = {95, 130, 75, '1x'};
+            featureControls.Padding = [0 0 0 0];
+            featureControls.ColumnSpacing = 8;
+
+            uilabel(featureControls, "Text", "Detector phase");
+            app.FeaturePhaseDropDown = uidropdown(featureControls, ...
+                "Items", ["Onset", "Transition", "End"], ...
+                "Value", "Onset", ...
+                "ValueChangedFcn", @app.onFeatureViewChanged);
+
+            uilabel(featureControls, "Text", "Features");
+            app.FeatureDropDown = uilistbox(featureControls, ...
+                "Items", ["All features", "RMS", "Theta", "Alpha", "Beta", ...
+                          "Gamma", "Line length", "Spectral entropy"], ...
+                "Value", "RMS", ...
+                "Multiselect", "on", ...
+                "ValueChangedFcn", @app.onFeatureViewChanged);
+
+            app.FeatureAxes = uiaxes(featureViewGrid);
+            title(app.FeatureAxes, "Original detector feature view");
+            xlabel(app.FeatureAxes, "Time (s)");
+            ylabel(app.FeatureAxes, "Feature value");
+            grid(app.FeatureAxes, "on");
+
+            app.StephenDiagnosticPanel = uipanel(app.PlotGrid, ...
+                "Title", "Stephen time-frequency — Changepoint selection");
+            stephenDiagnosticGrid = uigridlayout(app.StephenDiagnosticPanel, [1 1]);
+            stephenDiagnosticGrid.Padding = [8 6 8 8];
+            app.ResidualAxes = uiaxes(stephenDiagnosticGrid);
+
+            app.ResultsPanel = uipanel(app.Grid, ...
+                "Title", "Results", ...
+                "Scrollable", "on");
             app.ResultsPanel.Layout.Row = 2;
             app.ResultsPanel.Layout.Column = 2;
 
-            app.ResultsGrid = uigridlayout(app.ResultsPanel, [1 3]);
+            resultsContent = uipanel(app.ResultsPanel, ...
+                "BorderType", "none", ...
+                "Position", [0 0 1500 520]);
+            app.ResultsGrid = uigridlayout(resultsContent, [1 3]);
             app.ResultsGrid.ColumnWidth = {'2x', 0, '1x'};
             app.ResultsGrid.Padding = [10 8 10 8];
             app.ResultsGrid.ColumnSpacing = 10;

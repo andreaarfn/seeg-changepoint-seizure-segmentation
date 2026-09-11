@@ -1,111 +1,105 @@
 # SEEG Detector GUI
 
-This GUI runs from MATLAB and supports two detection methods:
+This MATLAB app lets you load a `.mat` file, choose a recording and channel, set a time range, and run either the original cleveland clinic detector, Dr. Stephen Thompson's time-frequency method, or both side by side.
 
-- **Original detector** — MATLAB sends the selected signal and settings to the existing Python detector in `src/`.
-- **Stephen time-frequency** — MATLAB runs the MATLAB workflow built from the four files Dr Thompson provided.
-
-The two methods can be run separately or side by side.
+You can run either method once over the full range or repeatedly across smaller windows.
 
 ## What you need
 
 - MATLAB
-- Signal Processing Toolbox
-- Wavelet Toolbox
 - Python 3.12
-- This full project folder
+- To copy this repository
 
-The project should include:
-
-```text
-application/
-gui/
-src/
-requirements.txt
-```
-
-## 1. Put the project on your computer
-
-Download or copy the full project folder to a location you can keep, for example:
+The Python side also uses:
 
 ```text
-Documents/seeg-changepoint-seizure-segmentation
+numpy
+scipy
+ruptures
 ```
 
-Do not move individual files out of the project unless needed.
+The project includes `requirements.txt`, which lists the Python packages needed for the original detector.
 
-## 2. Set up Python once
+## Set up Python
 
-The original detector uses Python in the background.
+The original detector runs in Python, so MATLAB needs access to a Python environment.
 
-### Check Python
+Check that Python 3.12 is installed.
 
-Open Terminal (macOS/Linux) or Command Prompt / PowerShell (Windows):
+macOS/Linux:
 
 ```bash
 python3.12 --version
 ```
 
-If that does not work, install Python 3.12 first.
+Windows:
 
-### Create a virtual environment
+```powershell
+py -3.12 --version
+```
 
-Move to the folder that contains the project.
+Then create a virtual environment and install the Python packages listed in `requirements.txt`.
+
+If you are already inside the project folder, the install command is:
+
+```bash
+pip install -r requirements.txt
+```
+
+A full setup looks like this.
 
 macOS/Linux:
 
 ```bash
-cd /path/to/the/folder/containing/the/project
+cd /path/to/seeg-changepoint-seizure-segmentation
 python3.12 -m venv .venv
 source .venv/bin/activate
-pip install -r seeg-changepoint-seizure-segmentation/requirements.txt
+pip install -r requirements.txt
 ```
 
 Windows:
 
 ```powershell
-cd C:\path\to\the\folder\containing\the\project
+cd C:\path\to\seeg-changepoint-seizure-segmentation
 py -3.12 -m venv .venv
 .venv\Scripts\activate
-pip install -r seeg-changepoint-seizure-segmentation\requirements.txt
+pip install -r requirements.txt
 ```
 
-This only needs to be done once.
+`requirements.txt` is already included in the project. The command above installs the packages listed in that file; it does not download the file itself.
 
-## 3. Connect MATLAB to Python
+You should only need to do this once.
 
-Start MATLAB and move into the project folder:
+## Connect MATLAB to Python
+
+Open MATLAB and move into the project folder:
 
 ```matlab
 cd('/path/to/seeg-changepoint-seizure-segmentation')
 
 projectRoot = char(pwd);
-```
 
-Add the MATLAB application folders:
-
-```matlab
 addpath(fullfile(projectRoot, 'application'))
 addpath(fullfile(projectRoot, 'application', 'stephen_method'))
 ```
 
-Point MATLAB to the Python environment Dr Thompson created.
+Point MATLAB to the Python environment you created.
 
-macOS/Linux example:
+macOS/Linux:
 
 ```matlab
 pyenv(Version="/path/to/.venv/bin/python", ...
       ExecutionMode="OutOfProcess")
 ```
 
-Windows example:
+Windows:
 
 ```matlab
 pyenv(Version="C:\path\to\.venv\Scripts\python.exe", ...
       ExecutionMode="OutOfProcess")
 ```
 
-Allow Python to find the local project modules:
+Then add the project folder to Python's path:
 
 ```matlab
 if count(py.sys.path, projectRoot) == 0
@@ -113,68 +107,61 @@ if count(py.sys.path, projectRoot) == 0
 end
 ```
 
-Optional check:
+You can test the connection with:
 
 ```matlab
 api = py.importlib.import_module('gui.api.detection_api');
 api.get_defaults();
 ```
 
-If that runs without an error, the original detector is available.
+If that runs without an error, MATLAB can reach the original detector.
 
-## 4. Start the GUI
+## Start the app
 
 ```matlab
 app = SEEGDetectionApp;
 ```
 
-## Using the GUI
+## How the original detector is connected
 
-### Load data
-
-1. Click **Load File**.
-2. Choose a Brainstorm-exported `.mat` file.
-3. Choose the recording and channel.
-4. Set the analysis start and end times.
-
-If the loaded file contains an LVFA annotation, it is shown separately as a loaded annotation.
-
-### Run mode
-
-There are two options:
-
-- **Analyze full range** — runs the selected method once over the full analysis range.
-- **Analyze windows iteratively** — repeats the selected method over smaller time windows.
-
-When iterative analysis is selected, enter:
-
-- **Iteration window (s)** — length of each analysis window
-- **Iteration step (s)** — how far forward the next window begins
-
-### Original detector
-
-This uses the existing Python detector in `src/`, mainly:
+The GUI does not rewrite the original cleveland clinic detector. It passes the selected signal and settings into the existing Python code.
 
 ```text
-src/features.py
-src/detection.py
+SEEGDetectionApp.m
+→ gui/api/detection_api.py
+→ src/detection.py
+→ src/features.py
 ```
 
-The GUI lets you adjust the original onset, transition, and end settings and select the features used by the detector.
+`src/detection.py` runs the three-phase detector and returns onset, transition, and termination.
 
-Full-range results are reported as:
+`src/features.py` contains the seven features used by the detector:
 
 ```text
-Onset
-Transition
-End
+RMS
+Theta
+Alpha
+Beta
+Gamma
+Line length
+Spectral entropy
 ```
 
-For iterative analysis, the GUI shows the onset, transition, and end returned for each individual window.
+The feature view uses:
 
-### Stephen time-frequency
+```text
+SEEGDetectionApp.m
+→ gui/api/features_api.py
+→ src/features.py
+```
 
-This uses the MATLAB workflow built from the four supplied files:
+So the GUI is still using the original Python feature code rather than a separate MATLAB version.
+
+`src/metrics.py` is not part of the current detection path. It is intended for evaluating detections against known reference times.
+
+## How Stephen's method is connected
+
+For Stephen's method, the GUI follows the workflow from the four MATLAB files Stephen provided:
 
 ```text
 pipeline_single.m
@@ -189,9 +176,46 @@ The original files are kept in:
 application/stephen_method/
 ```
 
-The GUI provides editable settings for the EMD, wavelet, and changepoint analysis.
+The four supplied files provide the reference workflow:
 
-Results are shown as generic changepoints:
+- `pipeline_single.m` shows the overall order of the processing steps.
+- `emd_baseline.m` separates the slower baseline from the faster signal component.
+- `ds_changepts.m` defines the changepoint search, including candidate changepoint counts, residuals, `Statistic='mean'`, and the minimum spacing rule.
+- `knee_pt.m` selects the knee of the residual curve, which determines the selected changepoint fit.
+
+`runStephenMethod.m` is the GUI-facing wrapper around this workflow
+
+
+## Using the GUI
+
+1. Click `Load File`.
+2. Select a `.mat` file.
+3. Choose the recording.
+4. Choose the channel.
+5. Set the analysis start and end times.
+6. Choose a method.
+7. Choose full-range or iterative analysis.
+8. Click `Run Detection`.
+
+## Methods
+
+### Original detector
+
+The original detector reports:
+
+```text
+Onset
+Transition
+End
+```
+
+The onset, transition, and end settings can be adjusted in the Controls panel.
+
+The feature view lets you show one, several, or all of the original detector features. You can also choose whether to use the onset, transition, or end window settings for the feature calculation.
+
+### Stephen time-frequency
+
+Stephen's method reports generic changepoints:
 
 ```text
 CP1
@@ -200,52 +224,72 @@ CP3
 ...
 ```
 
-These changepoints are not automatically labeled as onset, transition, or end.
+These are not automatically labeled as onset, transition, or end.
+
+The changepoint search uses the mean statistic, matching Stephen's original `ds_changepts.m`.
+
+For full-range analysis, the changepoint-selection plot shows the residual curve and selected knee.
+
+For iterative analysis, it shows the changepoint count selected in each window!
 
 ### Compare methods
 
-**Compare methods** runs both methods on the same channel and analysis range.
+Compare mode runs both methods on the same signal and time range.
 
-The display controls let you show or hide:
+The display keeps the outputs separate:
 
-- Original detector markers
-- Stephen time-frequency markers
-- Loaded LVFA annotation
+```text
+Original detector onset / transition / end
+Stephen changepoints
+Loaded LVFA annotation (if this was provided in the original code)
+```
 
-The results remain separated so it is clear which method produced each output.
+It also shows both method-specific views:
+
+```text
+Original detector - Feature view
+Stephen time-frequency - Changepoint selection
+```
+
+## Full-range vs iterative processing
+
+`Analyze full range` runs the selected method once over the whole analysis range.
+
+`Analyze windows iteratively` runs the selected method independently in repeated windows.
+
+For iterative analysis, enter:
+
+```text
+Iteration window (s)
+Iteration step (s)
+```
+
+The Results table shows one row for each window.
 
 ## Results
 
-Each method has its own result table.
+The Original Cleveland clinic detector table shows:
 
-For full-range analysis, the table shows one row for the selected range.
-
-For iterative analysis, the table shows one row per window.
-
-Use **Expand results** to open a larger, resizable table.
-
-## If MATLAB has trouble finding the app
-
-From the project folder:
-
-```matlab
-projectRoot = char(pwd);
-
-addpath(fullfile(projectRoot, 'application'))
-addpath(fullfile(projectRoot, 'application', 'stephen_method'))
-
-rehash
+```text
+Window
+Time range
+Onset
+Transition
+End
 ```
 
-Check:
+Stephen's table shows:
 
-```matlab
-which SEEGDetectionApp -all
+```text
+Window
+Time range
+CP count
+CP times
 ```
 
 ## After replacing or editing MATLAB files
 
-Close the existing app and reload the class:
+Close the current app and reload the class:
 
 ```matlab
 if exist('app','var')
@@ -262,23 +306,3 @@ rehash
 
 app = SEEGDetectionApp;
 ```
-
-## MATLAB toolbox check
-
-If the time-frequency method does not run:
-
-```matlab
-which emd
-which cwt
-which cwtfilterbank
-which findchangepts
-```
-
-`emd`, `cwt`, and `cwtfilterbank` require the relevant MATLAB signal/wavelet functionality, and `findchangepts` requires Signal Processing Toolbox.
-
-## Notes
-
-- Python is only required for the original detector.
-- Stephen's time-frequency method runs in MATLAB.
-- `metrics.py` is not part of the current detection path; it is intended for evaluation against known reference times.
-- The loaded LVFA annotation comes from the data file and is not generated by either detector.

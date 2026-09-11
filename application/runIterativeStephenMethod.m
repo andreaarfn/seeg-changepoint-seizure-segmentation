@@ -69,8 +69,7 @@ for w = 1:nWindows
     allTimes = [allTimes; windowTimes]; %#ok<AGROW>
 end
 
-% Preserve the current display behavior for the overlaid combined markers.
-% This merge affects only the combined plot markers, not the per-window table.
+
 mergeTolerance = max(iterationStepSeconds / 2, 1/fs);
 changeTimes = localMergeTimes(allTimes, mergeTolerance);
 
