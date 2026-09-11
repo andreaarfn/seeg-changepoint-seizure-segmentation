@@ -1,8 +1,6 @@
 # SEEG Detector GUI
 
-This MATLAB app lets you load a `.mat` file, choose a recording and channel, set a time range, and run either the original cleveland clinic detector, Dr. Stephen Thompson's time-frequency method, or both side by side.
-
-You can run either method once over the full range or repeatedly across smaller windows.
+This MATLAB app lets you load a `.mat` file, choose a recording and channel, set a time range, and run either the original cleveland clinic detector, Dr. Stephen Thompson's time-frequency method, or both side by side. You can run either method once over the full range or repeatedly across smaller windows.
 
 ## What you need
 
@@ -45,8 +43,6 @@ If you are already inside the project folder, the install command is:
 ```bash
 pip install -r requirements.txt
 ```
-
-A full setup looks like this.
 
 macOS/Linux:
 
@@ -175,8 +171,6 @@ The original files are kept in:
 ```text
 application/stephen_method/
 ```
-
-The four supplied files provide the reference workflow:
 
 - `pipeline_single.m` shows the overall order of the processing steps.
 - `emd_baseline.m` separates the slower baseline from the faster signal component.

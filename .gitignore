@@ -1,7 +1,4 @@
-# Old development scripts (not part of the published repo)
-old codes/
 
-# Data (SEEG recordings are not redistributed – IRB-protected)
 *.mat
 *.edf
 *.h5
@@ -9,7 +6,7 @@ old codes/
 *.npy
 *.npz
 
-# Results and outputs
+
 *.csv
 *.json
 figures/
@@ -21,9 +18,11 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# IDE
+
 .vscode/
 .idea/
 *.egg-info/
 dist/
 build/
+**/test/
+**/tests/
