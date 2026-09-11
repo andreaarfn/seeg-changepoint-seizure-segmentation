@@ -1,160 +1,180 @@
-# Three-Phase Seizure Segmentation in Stereotactic EEG Using Envelope-Based Multivariate Changepoint Analysis
+# SEEG Detector GUI
 
-**Himanshu Kumar, Guhan Seshadri N P, David Martinez, Imad Najm, Andreas Alexopoulos, Juan C Bulacio, Demitre Serletis, Balu Krishnan**
+This GUI is designed to be used from MATLAB. The original detector still runs through Python in the background, while the time-frequency workflow runs directly in MATLAB.
 
-*Epilepsy Centre, Neurological Institute, Cleveland Clinic, Cleveland, OH, USA*
+## What you need
 
-> Corresponding author: Balu Krishnan
+- MATLAB
+- Signal Processing Toolbox
+- Wavelet Toolbox
+- Python 3.12
+- This project folder
 
----
+The project should include:
 
-## Overview
-
-This repository contains the analysis code for our published paper on automated three-phase seizure segmentation in stereoelectroencephalography (SEEG) recordings.
-
-**Published article:** [Three-Phase Seizure Segmentation in Stereotactic EEG Using Envelope-Based Multivariate Changepoint Analysis](https://link.springer.com/article/10.1007/s10439-026-04097-7)
-
-**Key contributions:**
-- A semi-supervised framework that jointly detects **seizure onset**, **intra-ictal transition**, and **seizure termination** in a single pipeline.
-- Seven complementary **envelope-based features**: RMS amplitude, relative bandpower in θ (4–8 Hz), α (8–13 Hz), β (13–30 Hz), γ (30–80 Hz) bands, line length, and spectral entropy.
-- **PELT** (Pruned Exact Linear Time) changepoint detection with phase-specific feature weighting and penalty parameters.
-- Parameters optimised via **nested leave-one-subject-out cross-validation** (LOSO-CV) with Optuna.
-- **Length-invariant** validation through random pre- and post-ictal window extension.
-
-**Dataset:** 32 seizures from 10 patients with drug-resistant focal epilepsy undergoing presurgical SEEG evaluation at Cleveland Clinic. 179 seizure-onset zone bipolar channels analysed.
-
-**Results (mean ± SD absolute error):**
-
-| Phase | MAE (s) | Acc ±5 s |
-|---|---|---|
-| Seizure onset | 4.19 ± 2.69 | 71.6 % |
-| Intra-ictal transition | 6.93 ± 5.75 | 60.0 % |
-| Seizure termination | 3.82 ± 4.24 | 75.0 % |
-
----
-
-## Repository Structure
-
-```
-├── src/
-│   ├── features.py
-│   ├── detection.py
-│   └── metrics.py
-│
-├── scripts/
-│   ├── 01_feature_extraction/
-│   │   └── plot_segmentation_example.py
-│   │
-│   ├── 02_evaluation/
-│   │   ├── run_loso_cv.py
-│   │   └── evaluate_final_model.py
-│   │
-│   ├── 03_analysis/
-│   │   ├── generate_ablation_tables_and_plots.py
-│   │   ├── analyze_feature_importance.py
-│   │   └── extract_optimized_parameters.py
-│   │
-│   └── 04_visualization/
-│       ├── aggregate_epoched_features.py
-│       ├── plot_event_aligned_features.py
-│       ├── plot_feature_importance_radar.py
-│       └── plot_feature_importance_evolution.py
-│
-├── figures/
-├── requirements.txt
-└── .gitignore
+```text
+application/
+gui/
+src/
+requirements.txt
 ```
 
----
+## One-time setup
 
-## Installation
+### 1. Create the Python environment
+
+Open Terminal and go to the folder that contains the project:
 
 ```bash
-git clone https://github.com/<your-username>/seeg-changepoint-seizure-segmentation.git
-cd seeg-changepoint-seizure-segmentation
-pip install -r requirements.txt
+cd /path/to/SEEG_GUI_Project
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r /path/to/seeg-changepoint-seizure-segmentation/requirements.txt
 ```
 
-### Dependencies
+After this finishes, you can close Terminal.
 
-| Package | Purpose |
-|---|---|
-| `numpy`, `scipy` | Signal processing & feature extraction |
-| `ruptures` | PELT changepoint detection |
-| `optuna` | Bayesian hyperparameter optimisation |
-| `pandas` | Results management |
-| `matplotlib` | Visualisation |
-| `scikit-learn` | Preprocessing utilities |
-| `statsmodels` | Statistical testing |
+### 2. Connect MATLAB to Python
 
----
+In MATLAB, point `pyenv` to the Python executable inside `.venv`:
 
-## Usage
-
-### Feature extraction
-
-```python
-import scipy.io as sio
-from src.features import highpass_filter, extract_all_features, stack_features
-
-# Load your SEEG data (expected format: .mat file with bipolar montage)
-data = sio.loadmat("path/to/seizure.mat", simplify_cells=True)
-signal = data["filtered_signals"][channel_idx]   # 1-D array, 1000 Hz
-
-fs = 1000  # Hz
-
-# Extract all seven features (onset-phase parameters as example)
-features = extract_all_features(signal, fs, window_size=1000, step=150)
-
-# Stack into a feature matrix (normalised, equal weights)
-feature_names = ["rms", "theta", "alpha", "beta", "gamma", "ll", "se"]
-X = stack_features(features, feature_names)
-print(X.shape)  # (n_windows, 7)
+```matlab
+pyenv(Version="/path/to/SEEG_GUI_Project/.venv/bin/python", ...
+      ExecutionMode="OutOfProcess")
 ```
 
-### Changepoint detection
+Check the connection:
 
-```python
-from src.detection import detect_onset, detect_termination, detect_transition, DEFAULT_PARAMS
-
-# Onset detection (uses first changepoint)
-onset_idx = detect_onset(X, DEFAULT_PARAMS["onset"])
-onset_time = features["time_indices"][onset_idx] / fs  # convert samples → seconds
-print(f"Detected onset: {onset_time:.2f} s")
+```matlab
+pyenv
 ```
 
-### Running a full example
+### 3. Add the project to MATLAB
 
-```bash
-python scripts/01_feature_extraction/plot_segmentation_example.py
+Move into the repository:
+
+```matlab
+cd('/path/to/seeg-changepoint-seizure-segmentation')
+projectRoot = char(pwd);
+addpath(fullfile(projectRoot, 'application'))
 ```
 
-This will generate a multi-panel segmentation plot for the best-centred seizure case in your dataset.
+Allow Python to find the local project modules:
 
----
-
-## Data Availability
-
-SEEG recordings contain protected health information and **cannot be publicly shared**. All procedures were approved by the Cleveland Clinic Institutional Review Board (IRB) and conducted in accordance with the Declaration of Helsinki.
-
-Researchers interested in collaboration or data access may contact the corresponding author.
-
----
-
-## Citation
-
-If you use this code in your research, please cite:
-
-```
-Kumar H, Seshadri NP G, Martinez D, Najm I, Alexopoulos A, Bulacio JC,
-Serletis D, Krishnan B. Three-Phase Seizure Segmentation in Stereotactic EEG
-Using Envelope-Based Multivariate Changepoint Analysis.
-Annals of Biomedical Engineering, 2026.
-https://link.springer.com/article/10.1007/s10439-026-04097-7
+```matlab
+if count(py.sys.path, projectRoot) == 0
+    insert(py.sys.path, int32(0), projectRoot);
+end
 ```
 
----
+Optional check:
 
-## License
+```matlab
+api = py.importlib.import_module('gui.api.detection_api');
+api.get_defaults();
+```
 
-This code is released for academic and research purposes. Please contact the authors before use in commercial applications.
+If that runs without an error, the Python detector is available.
+
+## Start the GUI
+
+```matlab
+app = SEEGDetectionApp;
+```
+
+## Using the GUI
+
+### Load data
+
+1. Click **Load File**.
+2. Select a Brainstorm-exported `.mat` file.
+3. Choose the recording and channel.
+4. Set the analysis start and end times.
+
+Existing LVFA annotations are displayed when present.
+
+### Default approach
+
+This runs the original detector through MATLAB.
+
+You can edit:
+
+- onset, transition, and end window sizes
+- step sizes
+- penalties
+- selected features
+- analysis range
+
+The output is shown as **Onset**, **Transition**, and **End**.
+
+### Time-frequency approach
+
+This runs the MATLAB wavelet + `findchangepts` workflow.
+
+You can edit:
+
+- scan window
+- scan step
+- maximum changepoints
+- downsample factor
+- frequency range
+- `findchangepts` statistic
+- minimum changepoint distance
+
+The output is shown as **CP1, CP2, CP3, ...**
+
+These are generic changepoints and are not automatically labeled as seizure onset or end.
+
+The fit plot shows how the residual changes as more changepoints are allowed.
+
+### Compare methods
+
+This runs both approaches on the same signal and time range so their detected markers can be viewed together.
+
+## Troubleshooting
+
+If MATLAB cannot find the app:
+
+```matlab
+which SEEGDetectionApp -all
+```
+
+If needed:
+
+```matlab
+addpath(fullfile(projectRoot, 'application'))
+rehash
+```
+
+If MATLAB cannot find the Python modules:
+
+```matlab
+if count(py.sys.path, projectRoot) == 0
+    insert(py.sys.path, int32(0), projectRoot);
+end
+```
+
+If the time-frequency method does not run:
+
+```matlab
+which cwt
+which findchangepts
+```
+
+`cwt` requires Wavelet Toolbox.  
+`findchangepts` requires Signal Processing Toolbox.
+
+After replacing or editing MATLAB files:
+
+```matlab
+clear functions
+clear classes
+rehash
+app = SEEGDetectionApp;
+```
+
+## Notes
+
+- The **Default approach** uses the original Python detector in `src/`.
+- The **Time-frequency approach** is an exploratory MATLAB workflow and is still being refined.
+- LVFA markers come from the loaded recording; they are not generated by the detector.

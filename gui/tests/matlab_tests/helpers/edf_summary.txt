@@ -1,0 +1,1846 @@
+
+Found 75 EDF/BDF file(s).
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile1eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 38392.00 to 38392.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 7678400 samples
+    2: Cz                   200 Hz, 7678400 samples
+    3: Pz                   200 Hz, 7678400 samples
+    4: Fp1                  200 Hz, 7678400 samples
+    5: F7                   200 Hz, 7678400 samples
+    6: T3                   200 Hz, 7678400 samples
+    7: T5                   200 Hz, 7678400 samples
+    8: O1                   200 Hz, 7678400 samples
+    9: F3                   200 Hz, 7678400 samples
+   10: C3                   200 Hz, 7678400 samples
+   11: P3                   200 Hz, 7678400 samples
+   12: A1                   200 Hz, 7678400 samples
+   13: Fp2                  200 Hz, 7678400 samples
+   14: F8                   200 Hz, 7678400 samples
+   15: T4                   200 Hz, 7678400 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile2eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 37203.00 to 37203.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 7440600 samples
+    2: Cz                   200 Hz, 7440600 samples
+    3: Pz                   200 Hz, 7440600 samples
+    4: Fp1                  200 Hz, 7440600 samples
+    5: F7                   200 Hz, 7440600 samples
+    6: T3                   200 Hz, 7440600 samples
+    7: T5                   200 Hz, 7440600 samples
+    8: O1                   200 Hz, 7440600 samples
+    9: F3                   200 Hz, 7440600 samples
+   10: C3                   200 Hz, 7440600 samples
+   11: P3                   200 Hz, 7440600 samples
+   12: A1                   200 Hz, 7440600 samples
+   13: Fp2                  200 Hz, 7440600 samples
+   14: F8                   200 Hz, 7440600 samples
+   15: T4                   200 Hz, 7440600 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile3eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 34239.00 to 34239.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 6847800 samples
+    2: Cz                   200 Hz, 6847800 samples
+    3: Pz                   200 Hz, 6847800 samples
+    4: Fp1                  200 Hz, 6847800 samples
+    5: F7                   200 Hz, 6847800 samples
+    6: T3                   200 Hz, 6847800 samples
+    7: T5                   200 Hz, 6847800 samples
+    8: O1                   200 Hz, 6847800 samples
+    9: F3                   200 Hz, 6847800 samples
+   10: C3                   200 Hz, 6847800 samples
+   11: P3                   200 Hz, 6847800 samples
+   12: A1                   200 Hz, 6847800 samples
+   13: Fp2                  200 Hz, 6847800 samples
+   14: F8                   200 Hz, 6847800 samples
+   15: T4                   200 Hz, 6847800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile4eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 34067.00 to 34067.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 6813400 samples
+    2: Cz                   200 Hz, 6813400 samples
+    3: Pz                   200 Hz, 6813400 samples
+    4: Fp1                  200 Hz, 6813400 samples
+    5: F7                   200 Hz, 6813400 samples
+    6: T3                   200 Hz, 6813400 samples
+    7: T5                   200 Hz, 6813400 samples
+    8: O1                   200 Hz, 6813400 samples
+    9: F3                   200 Hz, 6813400 samples
+   10: C3                   200 Hz, 6813400 samples
+   11: P3                   200 Hz, 6813400 samples
+   12: A1                   200 Hz, 6813400 samples
+   13: Fp2                  200 Hz, 6813400 samples
+   14: F8                   200 Hz, 6813400 samples
+   15: T4                   200 Hz, 6813400 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile5eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 33611.00 to 33611.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 6722200 samples
+    2: Cz                   200 Hz, 6722200 samples
+    3: Pz                   200 Hz, 6722200 samples
+    4: Fp1                  200 Hz, 6722200 samples
+    5: F7                   200 Hz, 6722200 samples
+    6: T3                   200 Hz, 6722200 samples
+    7: T5                   200 Hz, 6722200 samples
+    8: O1                   200 Hz, 6722200 samples
+    9: F3                   200 Hz, 6722200 samples
+   10: C3                   200 Hz, 6722200 samples
+   11: P3                   200 Hz, 6722200 samples
+   12: A1                   200 Hz, 6722200 samples
+   13: Fp2                  200 Hz, 6722200 samples
+   14: F8                   200 Hz, 6722200 samples
+   15: T4                   200 Hz, 6722200 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B044
+File   : B044_hdlab_sleepFile6eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B044
+Signals: 21
+Length : 7827.00 to 7827.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fz                   200 Hz, 1565400 samples
+    2: Cz                   200 Hz, 1565400 samples
+    3: Pz                   200 Hz, 1565400 samples
+    4: Fp1                  200 Hz, 1565400 samples
+    5: F7                   200 Hz, 1565400 samples
+    6: T3                   200 Hz, 1565400 samples
+    7: T5                   200 Hz, 1565400 samples
+    8: O1                   200 Hz, 1565400 samples
+    9: F3                   200 Hz, 1565400 samples
+   10: C3                   200 Hz, 1565400 samples
+   11: P3                   200 Hz, 1565400 samples
+   12: A1                   200 Hz, 1565400 samples
+   13: Fp2                  200 Hz, 1565400 samples
+   14: F8                   200 Hz, 1565400 samples
+   15: T4                   200 Hz, 1565400 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile10eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 36483.00 to 36483.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7296600 samples
+    2: F7                   200 Hz, 7296600 samples
+    3: T3                   200 Hz, 7296600 samples
+    4: T5                   200 Hz, 7296600 samples
+    5: O1                   200 Hz, 7296600 samples
+    6: F3                   200 Hz, 7296600 samples
+    7: C3                   200 Hz, 7296600 samples
+    8: P3                   200 Hz, 7296600 samples
+    9: M1                   200 Hz, 7296600 samples
+   10: Fz                   200 Hz, 7296600 samples
+   11: Cz                   200 Hz, 7296600 samples
+   12: Pz                   200 Hz, 7296600 samples
+   13: Fp2                  200 Hz, 7296600 samples
+   14: F8                   200 Hz, 7296600 samples
+   15: T4                   200 Hz, 7296600 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile1eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 37201.00 to 37201.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7440200 samples
+    2: F7                   200 Hz, 7440200 samples
+    3: T3                   200 Hz, 7440200 samples
+    4: T5                   200 Hz, 7440200 samples
+    5: O1                   200 Hz, 7440200 samples
+    6: F3                   200 Hz, 7440200 samples
+    7: C3                   200 Hz, 7440200 samples
+    8: P3                   200 Hz, 7440200 samples
+    9: M1                   200 Hz, 7440200 samples
+   10: Fz                   200 Hz, 7440200 samples
+   11: Cz                   200 Hz, 7440200 samples
+   12: Pz                   200 Hz, 7440200 samples
+   13: Fp2                  200 Hz, 7440200 samples
+   14: F8                   200 Hz, 7440200 samples
+   15: T4                   200 Hz, 7440200 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile2eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 33807.00 to 33807.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 6761400 samples
+    2: F7                   200 Hz, 6761400 samples
+    3: T3                   200 Hz, 6761400 samples
+    4: T5                   200 Hz, 6761400 samples
+    5: O1                   200 Hz, 6761400 samples
+    6: F3                   200 Hz, 6761400 samples
+    7: C3                   200 Hz, 6761400 samples
+    8: P3                   200 Hz, 6761400 samples
+    9: M1                   200 Hz, 6761400 samples
+   10: Fz                   200 Hz, 6761400 samples
+   11: Cz                   200 Hz, 6761400 samples
+   12: Pz                   200 Hz, 6761400 samples
+   13: Fp2                  200 Hz, 6761400 samples
+   14: F8                   200 Hz, 6761400 samples
+   15: T4                   200 Hz, 6761400 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile3eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 37804.00 to 37804.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7560800 samples
+    2: F7                   200 Hz, 7560800 samples
+    3: T3                   200 Hz, 7560800 samples
+    4: T5                   200 Hz, 7560800 samples
+    5: O1                   200 Hz, 7560800 samples
+    6: F3                   200 Hz, 7560800 samples
+    7: C3                   200 Hz, 7560800 samples
+    8: P3                   200 Hz, 7560800 samples
+    9: M1                   200 Hz, 7560800 samples
+   10: Fz                   200 Hz, 7560800 samples
+   11: Cz                   200 Hz, 7560800 samples
+   12: Pz                   200 Hz, 7560800 samples
+   13: Fp2                  200 Hz, 7560800 samples
+   14: F8                   200 Hz, 7560800 samples
+   15: T4                   200 Hz, 7560800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile4eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 36699.00 to 36699.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7339800 samples
+    2: F7                   200 Hz, 7339800 samples
+    3: T3                   200 Hz, 7339800 samples
+    4: T5                   200 Hz, 7339800 samples
+    5: O1                   200 Hz, 7339800 samples
+    6: F3                   200 Hz, 7339800 samples
+    7: C3                   200 Hz, 7339800 samples
+    8: P3                   200 Hz, 7339800 samples
+    9: M1                   200 Hz, 7339800 samples
+   10: Fz                   200 Hz, 7339800 samples
+   11: Cz                   200 Hz, 7339800 samples
+   12: Pz                   200 Hz, 7339800 samples
+   13: Fp2                  200 Hz, 7339800 samples
+   14: F8                   200 Hz, 7339800 samples
+   15: T4                   200 Hz, 7339800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile5eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 36964.00 to 36964.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7392800 samples
+    2: F7                   200 Hz, 7392800 samples
+    3: T3                   200 Hz, 7392800 samples
+    4: T5                   200 Hz, 7392800 samples
+    5: O1                   200 Hz, 7392800 samples
+    6: F3                   200 Hz, 7392800 samples
+    7: C3                   200 Hz, 7392800 samples
+    8: P3                   200 Hz, 7392800 samples
+    9: M1                   200 Hz, 7392800 samples
+   10: Fz                   200 Hz, 7392800 samples
+   11: Cz                   200 Hz, 7392800 samples
+   12: Pz                   200 Hz, 7392800 samples
+   13: Fp2                  200 Hz, 7392800 samples
+   14: F8                   200 Hz, 7392800 samples
+   15: T4                   200 Hz, 7392800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile6eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 36494.00 to 36494.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7298800 samples
+    2: F7                   200 Hz, 7298800 samples
+    3: T3                   200 Hz, 7298800 samples
+    4: T5                   200 Hz, 7298800 samples
+    5: O1                   200 Hz, 7298800 samples
+    6: F3                   200 Hz, 7298800 samples
+    7: C3                   200 Hz, 7298800 samples
+    8: P3                   200 Hz, 7298800 samples
+    9: M1                   200 Hz, 7298800 samples
+   10: Fz                   200 Hz, 7298800 samples
+   11: Cz                   200 Hz, 7298800 samples
+   12: Pz                   200 Hz, 7298800 samples
+   13: Fp2                  200 Hz, 7298800 samples
+   14: F8                   200 Hz, 7298800 samples
+   15: T4                   200 Hz, 7298800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile7eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 35579.00 to 35579.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7115800 samples
+    2: F7                   200 Hz, 7115800 samples
+    3: T3                   200 Hz, 7115800 samples
+    4: T5                   200 Hz, 7115800 samples
+    5: O1                   200 Hz, 7115800 samples
+    6: F3                   200 Hz, 7115800 samples
+    7: C3                   200 Hz, 7115800 samples
+    8: P3                   200 Hz, 7115800 samples
+    9: M1                   200 Hz, 7115800 samples
+   10: Fz                   200 Hz, 7115800 samples
+   11: Cz                   200 Hz, 7115800 samples
+   12: Pz                   200 Hz, 7115800 samples
+   13: Fp2                  200 Hz, 7115800 samples
+   14: F8                   200 Hz, 7115800 samples
+   15: T4                   200 Hz, 7115800 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile8eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 38057.00 to 38057.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7611400 samples
+    2: F7                   200 Hz, 7611400 samples
+    3: T3                   200 Hz, 7611400 samples
+    4: T5                   200 Hz, 7611400 samples
+    5: O1                   200 Hz, 7611400 samples
+    6: F3                   200 Hz, 7611400 samples
+    7: C3                   200 Hz, 7611400 samples
+    8: P3                   200 Hz, 7611400 samples
+    9: M1                   200 Hz, 7611400 samples
+   10: Fz                   200 Hz, 7611400 samples
+   11: Cz                   200 Hz, 7611400 samples
+   12: Pz                   200 Hz, 7611400 samples
+   13: Fp2                  200 Hz, 7611400 samples
+   14: F8                   200 Hz, 7611400 samples
+   15: T4                   200 Hz, 7611400 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : B048
+File   : B048_hdlab_sleepFile9eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/B048
+Signals: 21
+Length : 32961.00 to 32961.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 6592200 samples
+    2: F7                   200 Hz, 6592200 samples
+    3: T3                   200 Hz, 6592200 samples
+    4: T5                   200 Hz, 6592200 samples
+    5: O1                   200 Hz, 6592200 samples
+    6: F3                   200 Hz, 6592200 samples
+    7: C3                   200 Hz, 6592200 samples
+    8: P3                   200 Hz, 6592200 samples
+    9: M1                   200 Hz, 6592200 samples
+   10: Fz                   200 Hz, 6592200 samples
+   11: Cz                   200 Hz, 6592200 samples
+   12: Pz                   200 Hz, 6592200 samples
+   13: Fp2                  200 Hz, 6592200 samples
+   14: F8                   200 Hz, 6592200 samples
+   15: T4                   200 Hz, 6592200 samples
+  ... 6 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (21 usable channel(s))
+
+====================================================================
+Folder : IER008
+File   : IER008_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER008
+Signals: 10
+Length : 86300.00 to 86300.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22092800 samples
+    2: EKG2                 256 Hz, 22092800 samples
+    3: Fp1                  256 Hz, 22092800 samples
+    4: F3                   256 Hz, 22092800 samples
+    5: C3                   256 Hz, 22092800 samples
+    6: O1                   256 Hz, 22092800 samples
+    7: Fp2                  256 Hz, 22092800 samples
+    8: F4                   256 Hz, 22092800 samples
+    9: C4                   256 Hz, 22092800 samples
+   10: O2                   256 Hz, 22092800 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER008
+File   : IER008_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER008
+Signals: 10
+Length : 85371.00 to 85371.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 21854976 samples
+    2: EKG2                 256 Hz, 21854976 samples
+    3: Fp1                  256 Hz, 21854976 samples
+    4: F3                   256 Hz, 21854976 samples
+    5: C3                   256 Hz, 21854976 samples
+    6: O1                   256 Hz, 21854976 samples
+    7: Fp2                  256 Hz, 21854976 samples
+    8: F4                   256 Hz, 21854976 samples
+    9: C4                   256 Hz, 21854976 samples
+   10: O2                   256 Hz, 21854976 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER008
+File   : IER008_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER008
+Signals: 10
+Length : 11571.00 to 11571.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 2962176 samples
+    2: EKG2                 256 Hz, 2962176 samples
+    3: Fp1                  256 Hz, 2962176 samples
+    4: F3                   256 Hz, 2962176 samples
+    5: C3                   256 Hz, 2962176 samples
+    6: O1                   256 Hz, 2962176 samples
+    7: Fp2                  256 Hz, 2962176 samples
+    8: F4                   256 Hz, 2962176 samples
+    9: C4                   256 Hz, 2962176 samples
+   10: O2                   256 Hz, 2962176 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER008
+File   : IER008_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER008
+Signals: 10
+Length : 71121.00 to 71121.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 18206976 samples
+    2: EKG2                 256 Hz, 18206976 samples
+    3: Fp1                  256 Hz, 18206976 samples
+    4: F3                   256 Hz, 18206976 samples
+    5: C3                   256 Hz, 18206976 samples
+    6: O1                   256 Hz, 18206976 samples
+    7: Fp2                  256 Hz, 18206976 samples
+    8: F4                   256 Hz, 18206976 samples
+    9: C4                   256 Hz, 18206976 samples
+   10: O2                   256 Hz, 18206976 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 8
+Length : 30763.00 to 30763.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: Fp1                  256 Hz, 7875328 samples
+    2: F3                   256 Hz, 7875328 samples
+    3: C3                   256 Hz, 7875328 samples
+    4: O1                   256 Hz, 7875328 samples
+    5: Fp2                  256 Hz, 7875328 samples
+    6: F4                   256 Hz, 7875328 samples
+    7: C4                   256 Hz, 7875328 samples
+    8: O2                   256 Hz, 7875328 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (8 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 2300.00 to 2300.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 588800 samples
+    2: Fp1                  256 Hz, 588800 samples
+    3: F3                   256 Hz, 588800 samples
+    4: C3                   256 Hz, 588800 samples
+    5: Oc1                  256 Hz, 588800 samples
+    6: EKG2                 256 Hz, 588800 samples
+    7: Fp2                  256 Hz, 588800 samples
+    8: F4                   256 Hz, 588800 samples
+    9: C4                   256 Hz, 588800 samples
+   10: Oc2                  256 Hz, 588800 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 85665.00 to 85665.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 21930240 samples
+    2: Fp1                  256 Hz, 21930240 samples
+    3: F3                   256 Hz, 21930240 samples
+    4: C3                   256 Hz, 21930240 samples
+    5: Oc1                  256 Hz, 21930240 samples
+    6: EKG2                 256 Hz, 21930240 samples
+    7: Fp2                  256 Hz, 21930240 samples
+    8: F4                   256 Hz, 21930240 samples
+    9: C4                   256 Hz, 21930240 samples
+   10: Oc2                  256 Hz, 21930240 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 83781.00 to 83781.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 21447936 samples
+    2: Fp1                  256 Hz, 21447936 samples
+    3: F3                   256 Hz, 21447936 samples
+    4: C3                   256 Hz, 21447936 samples
+    5: Oc1                  256 Hz, 21447936 samples
+    6: EKG2                 256 Hz, 21447936 samples
+    7: Fp2                  256 Hz, 21447936 samples
+    8: F4                   256 Hz, 21447936 samples
+    9: C4                   256 Hz, 21447936 samples
+   10: Oc2                  256 Hz, 21447936 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 86356.00 to 86356.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22107136 samples
+    2: Fp1                  256 Hz, 22107136 samples
+    3: F3                   256 Hz, 22107136 samples
+    4: C3                   256 Hz, 22107136 samples
+    5: Oc1                  256 Hz, 22107136 samples
+    6: EKG2                 256 Hz, 22107136 samples
+    7: Fp2                  256 Hz, 22107136 samples
+    8: F4                   256 Hz, 22107136 samples
+    9: C4                   256 Hz, 22107136 samples
+   10: Oc2                  256 Hz, 22107136 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 86316.00 to 86316.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22096896 samples
+    2: Fp1                  256 Hz, 22096896 samples
+    3: F3                   256 Hz, 22096896 samples
+    4: C3                   256 Hz, 22096896 samples
+    5: Oc1                  256 Hz, 22096896 samples
+    6: EKG2                 256 Hz, 22096896 samples
+    7: Fp2                  256 Hz, 22096896 samples
+    8: F4                   256 Hz, 22096896 samples
+    9: C4                   256 Hz, 22096896 samples
+   10: Oc2                  256 Hz, 22096896 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file7.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 86353.00 to 86353.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22106368 samples
+    2: Fp1                  256 Hz, 22106368 samples
+    3: F3                   256 Hz, 22106368 samples
+    4: C3                   256 Hz, 22106368 samples
+    5: Oc1                  256 Hz, 22106368 samples
+    6: EKG2                 256 Hz, 22106368 samples
+    7: Fp2                  256 Hz, 22106368 samples
+    8: F4                   256 Hz, 22106368 samples
+    9: C4                   256 Hz, 22106368 samples
+   10: Oc2                  256 Hz, 22106368 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file8.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 86333.00 to 86333.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22101248 samples
+    2: Fp1                  256 Hz, 22101248 samples
+    3: F3                   256 Hz, 22101248 samples
+    4: C3                   256 Hz, 22101248 samples
+    5: Oc1                  256 Hz, 22101248 samples
+    6: EKG2                 256 Hz, 22101248 samples
+    7: Fp2                  256 Hz, 22101248 samples
+    8: F4                   256 Hz, 22101248 samples
+    9: C4                   256 Hz, 22101248 samples
+   10: Oc2                  256 Hz, 22101248 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : IER009
+File   : IER009_eegData_file9.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/IER009
+Signals: 10
+Length : 39260.00 to 39260.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 10050560 samples
+    2: Fp1                  256 Hz, 10050560 samples
+    3: F3                   256 Hz, 10050560 samples
+    4: C3                   256 Hz, 10050560 samples
+    5: Oc1                  256 Hz, 10050560 samples
+    6: EKG2                 256 Hz, 10050560 samples
+    7: Fp2                  256 Hz, 10050560 samples
+    8: F4                   256 Hz, 10050560 samples
+    9: C4                   256 Hz, 10050560 samples
+   10: Oc2                  256 Hz, 10050560 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 86821.00 to 86821.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 22226176 samples
+    2: eegF7                256 Hz, 22226176 samples
+    3: eegT3                256 Hz, 22226176 samples
+    4: eegT5                256 Hz, 22226176 samples
+    5: eegO1                256 Hz, 22226176 samples
+    6: eegF3                256 Hz, 22226176 samples
+    7: eegC3                256 Hz, 22226176 samples
+    8: eegP3                256 Hz, 22226176 samples
+    9: eegFz                256 Hz, 22226176 samples
+   10: eegCz                256 Hz, 22226176 samples
+   11: eegPz                256 Hz, 22226176 samples
+   12: eegFp2               256 Hz, 22226176 samples
+   13: eegF8                256 Hz, 22226176 samples
+   14: eegT4                256 Hz, 22226176 samples
+   15: eegT6                256 Hz, 22226176 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 81178.00 to 81178.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 20781568 samples
+    2: eegF7                256 Hz, 20781568 samples
+    3: eegT3                256 Hz, 20781568 samples
+    4: eegT5                256 Hz, 20781568 samples
+    5: eegO1                256 Hz, 20781568 samples
+    6: eegF3                256 Hz, 20781568 samples
+    7: eegC3                256 Hz, 20781568 samples
+    8: eegP3                256 Hz, 20781568 samples
+    9: eegFz                256 Hz, 20781568 samples
+   10: eegCz                256 Hz, 20781568 samples
+   11: eegPz                256 Hz, 20781568 samples
+   12: eegFp2               256 Hz, 20781568 samples
+   13: eegF8                256 Hz, 20781568 samples
+   14: eegT4                256 Hz, 20781568 samples
+   15: eegT6                256 Hz, 20781568 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 84728.00 to 84728.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 21690368 samples
+    2: eegF7                256 Hz, 21690368 samples
+    3: eegT3                256 Hz, 21690368 samples
+    4: eegT5                256 Hz, 21690368 samples
+    5: eegO1                256 Hz, 21690368 samples
+    6: eegF3                256 Hz, 21690368 samples
+    7: eegC3                256 Hz, 21690368 samples
+    8: eegP3                256 Hz, 21690368 samples
+    9: eegFz                256 Hz, 21690368 samples
+   10: eegCz                256 Hz, 21690368 samples
+   11: eegPz                256 Hz, 21690368 samples
+   12: eegFp2               256 Hz, 21690368 samples
+   13: eegF8                256 Hz, 21690368 samples
+   14: eegT4                256 Hz, 21690368 samples
+   15: eegT6                256 Hz, 21690368 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 86643.00 to 86643.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 22180608 samples
+    2: eegF7                256 Hz, 22180608 samples
+    3: eegT3                256 Hz, 22180608 samples
+    4: eegT5                256 Hz, 22180608 samples
+    5: eegO1                256 Hz, 22180608 samples
+    6: eegF3                256 Hz, 22180608 samples
+    7: eegC3                256 Hz, 22180608 samples
+    8: eegP3                256 Hz, 22180608 samples
+    9: eegFz                256 Hz, 22180608 samples
+   10: eegCz                256 Hz, 22180608 samples
+   11: eegPz                256 Hz, 22180608 samples
+   12: eegFp2               256 Hz, 22180608 samples
+   13: eegF8                256 Hz, 22180608 samples
+   14: eegT4                256 Hz, 22180608 samples
+   15: eegT6                256 Hz, 22180608 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 85176.00 to 85176.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 21805056 samples
+    2: eegF7                256 Hz, 21805056 samples
+    3: eegT3                256 Hz, 21805056 samples
+    4: eegT5                256 Hz, 21805056 samples
+    5: eegO1                256 Hz, 21805056 samples
+    6: eegF3                256 Hz, 21805056 samples
+    7: eegC3                256 Hz, 21805056 samples
+    8: eegP3                256 Hz, 21805056 samples
+    9: eegFz                256 Hz, 21805056 samples
+   10: eegCz                256 Hz, 21805056 samples
+   11: eegPz                256 Hz, 21805056 samples
+   12: eegFp2               256 Hz, 21805056 samples
+   13: eegF8                256 Hz, 21805056 samples
+   14: eegT4                256 Hz, 21805056 samples
+   15: eegT6                256 Hz, 21805056 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P001
+File   : P001_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001
+Signals: 19
+Length : 33609.00 to 33609.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: eegFp1               256 Hz, 8603904 samples
+    2: eegF7                256 Hz, 8603904 samples
+    3: eegT3                256 Hz, 8603904 samples
+    4: eegT5                256 Hz, 8603904 samples
+    5: eegO1                256 Hz, 8603904 samples
+    6: eegF3                256 Hz, 8603904 samples
+    7: eegC3                256 Hz, 8603904 samples
+    8: eegP3                256 Hz, 8603904 samples
+    9: eegFz                256 Hz, 8603904 samples
+   10: eegCz                256 Hz, 8603904 samples
+   11: eegPz                256 Hz, 8603904 samples
+   12: eegFp2               256 Hz, 8603904 samples
+   13: eegF8                256 Hz, 8603904 samples
+   14: eegT4                256 Hz, 8603904 samples
+   15: eegT6                256 Hz, 8603904 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : oldNigthtOnly
+File   : P001_hdlab_sleepFile1eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001/oldNigthtOnly
+Signals: 19
+Length : 40539.00 to 40539.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 8107800 samples
+    2: F7                   200 Hz, 8107800 samples
+    3: T3                   200 Hz, 8107800 samples
+    4: T5                   200 Hz, 8107800 samples
+    5: O1                   200 Hz, 8107800 samples
+    6: F3                   200 Hz, 8107800 samples
+    7: C3                   200 Hz, 8107800 samples
+    8: P3                   200 Hz, 8107800 samples
+    9: Fz                   200 Hz, 8107800 samples
+   10: Cz                   200 Hz, 8107800 samples
+   11: Pz                   200 Hz, 8107800 samples
+   12: Fp2                  200 Hz, 8107800 samples
+   13: F8                   200 Hz, 8107800 samples
+   14: T4                   200 Hz, 8107800 samples
+   15: T6                   200 Hz, 8107800 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : oldNigthtOnly
+File   : P001_hdlab_sleepFile2eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001/oldNigthtOnly
+Signals: 19
+Length : 35402.00 to 35402.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 7080400 samples
+    2: F7                   200 Hz, 7080400 samples
+    3: T3                   200 Hz, 7080400 samples
+    4: T5                   200 Hz, 7080400 samples
+    5: O1                   200 Hz, 7080400 samples
+    6: F3                   200 Hz, 7080400 samples
+    7: C3                   200 Hz, 7080400 samples
+    8: P3                   200 Hz, 7080400 samples
+    9: Fz                   200 Hz, 7080400 samples
+   10: Cz                   200 Hz, 7080400 samples
+   11: Pz                   200 Hz, 7080400 samples
+   12: Fp2                  200 Hz, 7080400 samples
+   13: F8                   200 Hz, 7080400 samples
+   14: T4                   200 Hz, 7080400 samples
+   15: T6                   200 Hz, 7080400 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : oldNigthtOnly
+File   : P001_hdlab_sleepFile3eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001/oldNigthtOnly
+Signals: 19
+Length : 34494.00 to 34494.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 6898800 samples
+    2: F7                   200 Hz, 6898800 samples
+    3: T3                   200 Hz, 6898800 samples
+    4: T5                   200 Hz, 6898800 samples
+    5: O1                   200 Hz, 6898800 samples
+    6: F3                   200 Hz, 6898800 samples
+    7: C3                   200 Hz, 6898800 samples
+    8: P3                   200 Hz, 6898800 samples
+    9: Fz                   200 Hz, 6898800 samples
+   10: Cz                   200 Hz, 6898800 samples
+   11: Pz                   200 Hz, 6898800 samples
+   12: Fp2                  200 Hz, 6898800 samples
+   13: F8                   200 Hz, 6898800 samples
+   14: T4                   200 Hz, 6898800 samples
+   15: T6                   200 Hz, 6898800 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : oldNigthtOnly
+File   : P001_hdlab_sleepFile4eegOnly.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P001/oldNigthtOnly
+Signals: 19
+Length : 33595.00 to 33595.00 seconds
+Sample frequencies: 200 Hz
+
+First channel labels:
+    1: Fp1                  200 Hz, 6719000 samples
+    2: F7                   200 Hz, 6719000 samples
+    3: T3                   200 Hz, 6719000 samples
+    4: T5                   200 Hz, 6719000 samples
+    5: O1                   200 Hz, 6719000 samples
+    6: F3                   200 Hz, 6719000 samples
+    7: C3                   200 Hz, 6719000 samples
+    8: P3                   200 Hz, 6719000 samples
+    9: Fz                   200 Hz, 6719000 samples
+   10: Cz                   200 Hz, 6719000 samples
+   11: Pz                   200 Hz, 6719000 samples
+   12: Fp2                  200 Hz, 6719000 samples
+   13: F8                   200 Hz, 6719000 samples
+   14: T4                   200 Hz, 6719000 samples
+   15: T6                   200 Hz, 6719000 samples
+  ... 4 more channel(s)
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (19 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 66132.00 to 66132.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 16929792 samples
+    2: F7                   256 Hz, 16929792 samples
+    3: O1                   256 Hz, 16929792 samples
+    4: Fp2                  256 Hz, 16929792 samples
+    5: F8                   256 Hz, 16929792 samples
+    6: O2                   256 Hz, 16929792 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 84223.00 to 84223.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 21561088 samples
+    2: F7                   256 Hz, 21561088 samples
+    3: O1                   256 Hz, 21561088 samples
+    4: Fp2                  256 Hz, 21561088 samples
+    5: F8                   256 Hz, 21561088 samples
+    6: O2                   256 Hz, 21561088 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86352.00 to 86352.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22106112 samples
+    2: F7                   256 Hz, 22106112 samples
+    3: O1                   256 Hz, 22106112 samples
+    4: Fp2                  256 Hz, 22106112 samples
+    5: F8                   256 Hz, 22106112 samples
+    6: O2                   256 Hz, 22106112 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86358.00 to 86358.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22107648 samples
+    2: F7                   256 Hz, 22107648 samples
+    3: O1                   256 Hz, 22107648 samples
+    4: Fp2                  256 Hz, 22107648 samples
+    5: F8                   256 Hz, 22107648 samples
+    6: O2                   256 Hz, 22107648 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86358.00 to 86358.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22107648 samples
+    2: F7                   256 Hz, 22107648 samples
+    3: O1                   256 Hz, 22107648 samples
+    4: Fp2                  256 Hz, 22107648 samples
+    5: F8                   256 Hz, 22107648 samples
+    6: O2                   256 Hz, 22107648 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86364.00 to 86364.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22109184 samples
+    2: F7                   256 Hz, 22109184 samples
+    3: O1                   256 Hz, 22109184 samples
+    4: Fp2                  256 Hz, 22109184 samples
+    5: F8                   256 Hz, 22109184 samples
+    6: O2                   256 Hz, 22109184 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file7.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86350.00 to 86350.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22105600 samples
+    2: F7                   256 Hz, 22105600 samples
+    3: O1                   256 Hz, 22105600 samples
+    4: Fp2                  256 Hz, 22105600 samples
+    5: F8                   256 Hz, 22105600 samples
+    6: O2                   256 Hz, 22105600 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file8.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 86356.00 to 86356.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 22107136 samples
+    2: F7                   256 Hz, 22107136 samples
+    3: O1                   256 Hz, 22107136 samples
+    4: Fp2                  256 Hz, 22107136 samples
+    5: F8                   256 Hz, 22107136 samples
+    6: O2                   256 Hz, 22107136 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P032
+File   : P032_eegData_file9.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P032
+Signals: 6
+Length : 29964.00 to 29964.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: FP1                  256 Hz, 7670784 samples
+    2: F7                   256 Hz, 7670784 samples
+    3: O1                   256 Hz, 7670784 samples
+    4: Fp2                  256 Hz, 7670784 samples
+    5: F8                   256 Hz, 7670784 samples
+    6: O2                   256 Hz, 7670784 samples
+
+Possible recording type: Likely scalp EEG
+Bridge candidate: yes (6 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 85151.00 to 85151.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 21798656 samples
+    2: ekg2                 256 Hz, 21798656 samples
+    3: Fp1                  256 Hz, 21798656 samples
+    4: F3                   256 Hz, 21798656 samples
+    5: C3                   256 Hz, 21798656 samples
+    6: O1                   256 Hz, 21798656 samples
+    7: Fp2                  256 Hz, 21798656 samples
+    8: F4                   256 Hz, 21798656 samples
+    9: C4                   256 Hz, 21798656 samples
+   10: O2                   256 Hz, 21798656 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 86348.00 to 86348.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22105088 samples
+    2: ekg2                 256 Hz, 22105088 samples
+    3: Fp1                  256 Hz, 22105088 samples
+    4: F3                   256 Hz, 22105088 samples
+    5: C3                   256 Hz, 22105088 samples
+    6: O1                   256 Hz, 22105088 samples
+    7: Fp2                  256 Hz, 22105088 samples
+    8: F4                   256 Hz, 22105088 samples
+    9: C4                   256 Hz, 22105088 samples
+   10: O2                   256 Hz, 22105088 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 86353.00 to 86353.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22106368 samples
+    2: ekg2                 256 Hz, 22106368 samples
+    3: Fp1                  256 Hz, 22106368 samples
+    4: F3                   256 Hz, 22106368 samples
+    5: C3                   256 Hz, 22106368 samples
+    6: O1                   256 Hz, 22106368 samples
+    7: Fp2                  256 Hz, 22106368 samples
+    8: F4                   256 Hz, 22106368 samples
+    9: C4                   256 Hz, 22106368 samples
+   10: O2                   256 Hz, 22106368 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 86356.00 to 86356.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22107136 samples
+    2: ekg2                 256 Hz, 22107136 samples
+    3: Fp1                  256 Hz, 22107136 samples
+    4: F3                   256 Hz, 22107136 samples
+    5: C3                   256 Hz, 22107136 samples
+    6: O1                   256 Hz, 22107136 samples
+    7: Fp2                  256 Hz, 22107136 samples
+    8: F4                   256 Hz, 22107136 samples
+    9: C4                   256 Hz, 22107136 samples
+   10: O2                   256 Hz, 22107136 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 86334.00 to 86334.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22101504 samples
+    2: ekg2                 256 Hz, 22101504 samples
+    3: Fp1                  256 Hz, 22101504 samples
+    4: F3                   256 Hz, 22101504 samples
+    5: C3                   256 Hz, 22101504 samples
+    6: O1                   256 Hz, 22101504 samples
+    7: Fp2                  256 Hz, 22101504 samples
+    8: F4                   256 Hz, 22101504 samples
+    9: C4                   256 Hz, 22101504 samples
+   10: O2                   256 Hz, 22101504 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 73132.00 to 73132.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 18721792 samples
+    2: ekg2                 256 Hz, 18721792 samples
+    3: Fp1                  256 Hz, 18721792 samples
+    4: F3                   256 Hz, 18721792 samples
+    5: C3                   256 Hz, 18721792 samples
+    6: O1                   256 Hz, 18721792 samples
+    7: Fp2                  256 Hz, 18721792 samples
+    8: F4                   256 Hz, 18721792 samples
+    9: C4                   256 Hz, 18721792 samples
+   10: O2                   256 Hz, 18721792 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P042
+File   : P042_eegData_file7.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P042
+Signals: 10
+Length : 14332.00 to 14332.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 3668992 samples
+    2: ekg2                 256 Hz, 3668992 samples
+    3: Fp1                  256 Hz, 3668992 samples
+    4: F3                   256 Hz, 3668992 samples
+    5: C3                   256 Hz, 3668992 samples
+    6: O1                   256 Hz, 3668992 samples
+    7: Fp2                  256 Hz, 3668992 samples
+    8: F4                   256 Hz, 3668992 samples
+    9: C4                   256 Hz, 3668992 samples
+   10: O2                   256 Hz, 3668992 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 29871.00 to 29871.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 7646976 samples
+    2: ekg2                 256 Hz, 7646976 samples
+    3: FP1                  256 Hz, 7646976 samples
+    4: F3                   256 Hz, 7646976 samples
+    5: C3                   256 Hz, 7646976 samples
+    6: O1                   256 Hz, 7646976 samples
+    7: FP2                  256 Hz, 7646976 samples
+    8: F4                   256 Hz, 7646976 samples
+    9: C4                   256 Hz, 7646976 samples
+   10: O2                   256 Hz, 7646976 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 42304.00 to 42304.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 10829824 samples
+    2: ekg2                 256 Hz, 10829824 samples
+    3: FP1                  256 Hz, 10829824 samples
+    4: F3                   256 Hz, 10829824 samples
+    5: C3                   256 Hz, 10829824 samples
+    6: O1                   256 Hz, 10829824 samples
+    7: FP2                  256 Hz, 10829824 samples
+    8: F4                   256 Hz, 10829824 samples
+    9: C4                   256 Hz, 10829824 samples
+   10: O2                   256 Hz, 10829824 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 42883.00 to 42883.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 10978048 samples
+    2: ekg2                 256 Hz, 10978048 samples
+    3: FP1                  256 Hz, 10978048 samples
+    4: F3                   256 Hz, 10978048 samples
+    5: C3                   256 Hz, 10978048 samples
+    6: O1                   256 Hz, 10978048 samples
+    7: FP2                  256 Hz, 10978048 samples
+    8: F4                   256 Hz, 10978048 samples
+    9: C4                   256 Hz, 10978048 samples
+   10: O2                   256 Hz, 10978048 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 86346.00 to 86346.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22104576 samples
+    2: ekg2                 256 Hz, 22104576 samples
+    3: FP1                  256 Hz, 22104576 samples
+    4: F3                   256 Hz, 22104576 samples
+    5: C3                   256 Hz, 22104576 samples
+    6: O1                   256 Hz, 22104576 samples
+    7: FP2                  256 Hz, 22104576 samples
+    8: F4                   256 Hz, 22104576 samples
+    9: C4                   256 Hz, 22104576 samples
+   10: O2                   256 Hz, 22104576 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 86265.00 to 86265.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22083840 samples
+    2: ekg2                 256 Hz, 22083840 samples
+    3: FP1                  256 Hz, 22083840 samples
+    4: F3                   256 Hz, 22083840 samples
+    5: C3                   256 Hz, 22083840 samples
+    6: O1                   256 Hz, 22083840 samples
+    7: FP2                  256 Hz, 22083840 samples
+    8: F4                   256 Hz, 22083840 samples
+    9: C4                   256 Hz, 22083840 samples
+   10: O2                   256 Hz, 22083840 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 86309.00 to 86309.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22095104 samples
+    2: ekg2                 256 Hz, 22095104 samples
+    3: FP1                  256 Hz, 22095104 samples
+    4: F3                   256 Hz, 22095104 samples
+    5: C3                   256 Hz, 22095104 samples
+    6: O1                   256 Hz, 22095104 samples
+    7: FP2                  256 Hz, 22095104 samples
+    8: F4                   256 Hz, 22095104 samples
+    9: C4                   256 Hz, 22095104 samples
+   10: O2                   256 Hz, 22095104 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file7.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 86312.00 to 86312.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22095872 samples
+    2: ekg2                 256 Hz, 22095872 samples
+    3: FP1                  256 Hz, 22095872 samples
+    4: F3                   256 Hz, 22095872 samples
+    5: C3                   256 Hz, 22095872 samples
+    6: O1                   256 Hz, 22095872 samples
+    7: FP2                  256 Hz, 22095872 samples
+    8: F4                   256 Hz, 22095872 samples
+    9: C4                   256 Hz, 22095872 samples
+   10: O2                   256 Hz, 22095872 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P043
+File   : P043_eegData_file8.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P043
+Signals: 10
+Length : 75849.00 to 75849.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 19417344 samples
+    2: ekg2                 256 Hz, 19417344 samples
+    3: FP1                  256 Hz, 19417344 samples
+    4: F3                   256 Hz, 19417344 samples
+    5: C3                   256 Hz, 19417344 samples
+    6: O1                   256 Hz, 19417344 samples
+    7: FP2                  256 Hz, 19417344 samples
+    8: F4                   256 Hz, 19417344 samples
+    9: C4                   256 Hz, 19417344 samples
+   10: O2                   256 Hz, 19417344 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file1.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 28995.00 to 28995.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 7422720 samples
+    2: EKG2                 256 Hz, 7422720 samples
+    3: Fp1                  256 Hz, 7422720 samples
+    4: F3                   256 Hz, 7422720 samples
+    5: C3                   256 Hz, 7422720 samples
+    6: O1                   256 Hz, 7422720 samples
+    7: Fp2                  256 Hz, 7422720 samples
+    8: F4                   256 Hz, 7422720 samples
+    9: C4                   256 Hz, 7422720 samples
+   10: O2                   256 Hz, 7422720 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file2.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86362.00 to 86362.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22108672 samples
+    2: EKG2                 256 Hz, 22108672 samples
+    3: Fp1                  256 Hz, 22108672 samples
+    4: F3                   256 Hz, 22108672 samples
+    5: C3                   256 Hz, 22108672 samples
+    6: O1                   256 Hz, 22108672 samples
+    7: Fp2                  256 Hz, 22108672 samples
+    8: F4                   256 Hz, 22108672 samples
+    9: C4                   256 Hz, 22108672 samples
+   10: O2                   256 Hz, 22108672 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file3.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86058.00 to 86058.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22030848 samples
+    2: EKG2                 256 Hz, 22030848 samples
+    3: Fp1                  256 Hz, 22030848 samples
+    4: F3                   256 Hz, 22030848 samples
+    5: C3                   256 Hz, 22030848 samples
+    6: O1                   256 Hz, 22030848 samples
+    7: Fp2                  256 Hz, 22030848 samples
+    8: F4                   256 Hz, 22030848 samples
+    9: C4                   256 Hz, 22030848 samples
+   10: O2                   256 Hz, 22030848 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86358.00 to 86358.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22107648 samples
+    2: EKG2                 256 Hz, 22107648 samples
+    3: Fp1                  256 Hz, 22107648 samples
+    4: F3                   256 Hz, 22107648 samples
+    5: C3                   256 Hz, 22107648 samples
+    6: O1                   256 Hz, 22107648 samples
+    7: Fp2                  256 Hz, 22107648 samples
+    8: F4                   256 Hz, 22107648 samples
+    9: C4                   256 Hz, 22107648 samples
+   10: O2                   256 Hz, 22107648 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86294.00 to 86294.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22091264 samples
+    2: EKG2                 256 Hz, 22091264 samples
+    3: Fp1                  256 Hz, 22091264 samples
+    4: F3                   256 Hz, 22091264 samples
+    5: C3                   256 Hz, 22091264 samples
+    6: O1                   256 Hz, 22091264 samples
+    7: Fp2                  256 Hz, 22091264 samples
+    8: F4                   256 Hz, 22091264 samples
+    9: C4                   256 Hz, 22091264 samples
+   10: O2                   256 Hz, 22091264 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86345.00 to 86345.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22104320 samples
+    2: EKG2                 256 Hz, 22104320 samples
+    3: Fp1                  256 Hz, 22104320 samples
+    4: F3                   256 Hz, 22104320 samples
+    5: C3                   256 Hz, 22104320 samples
+    6: O1                   256 Hz, 22104320 samples
+    7: Fp2                  256 Hz, 22104320 samples
+    8: F4                   256 Hz, 22104320 samples
+    9: C4                   256 Hz, 22104320 samples
+   10: O2                   256 Hz, 22104320 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file7.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86316.00 to 86316.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22096896 samples
+    2: EKG2                 256 Hz, 22096896 samples
+    3: Fp1                  256 Hz, 22096896 samples
+    4: F3                   256 Hz, 22096896 samples
+    5: C3                   256 Hz, 22096896 samples
+    6: O1                   256 Hz, 22096896 samples
+    7: Fp2                  256 Hz, 22096896 samples
+    8: F4                   256 Hz, 22096896 samples
+    9: C4                   256 Hz, 22096896 samples
+   10: O2                   256 Hz, 22096896 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file8.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 86318.00 to 86318.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 22097408 samples
+    2: EKG2                 256 Hz, 22097408 samples
+    3: Fp1                  256 Hz, 22097408 samples
+    4: F3                   256 Hz, 22097408 samples
+    5: C3                   256 Hz, 22097408 samples
+    6: O1                   256 Hz, 22097408 samples
+    7: Fp2                  256 Hz, 22097408 samples
+    8: F4                   256 Hz, 22097408 samples
+    9: C4                   256 Hz, 22097408 samples
+   10: O2                   256 Hz, 22097408 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : P044
+File   : P044_eegData_file9.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/P044
+Signals: 10
+Length : 13649.00 to 13649.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: EKG1                 256 Hz, 3494144 samples
+    2: EKG2                 256 Hz, 3494144 samples
+    3: Fp1                  256 Hz, 3494144 samples
+    4: F3                   256 Hz, 3494144 samples
+    5: C3                   256 Hz, 3494144 samples
+    6: O1                   256 Hz, 3494144 samples
+    7: Fp2                  256 Hz, 3494144 samples
+    8: F4                   256 Hz, 3494144 samples
+    9: C4                   256 Hz, 3494144 samples
+   10: O2                   256 Hz, 3494144 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : patient1
+File   : P043_eegData_file4.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/patient1
+Signals: 10
+Length : 86346.00 to 86346.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22104576 samples
+    2: ekg2                 256 Hz, 22104576 samples
+    3: FP1                  256 Hz, 22104576 samples
+    4: F3                   256 Hz, 22104576 samples
+    5: C3                   256 Hz, 22104576 samples
+    6: O1                   256 Hz, 22104576 samples
+    7: FP2                  256 Hz, 22104576 samples
+    8: F4                   256 Hz, 22104576 samples
+    9: C4                   256 Hz, 22104576 samples
+   10: O2                   256 Hz, 22104576 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : patient1
+File   : P043_eegData_file5.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/patient1
+Signals: 10
+Length : 86265.00 to 86265.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22083840 samples
+    2: ekg2                 256 Hz, 22083840 samples
+    3: FP1                  256 Hz, 22083840 samples
+    4: F3                   256 Hz, 22083840 samples
+    5: C3                   256 Hz, 22083840 samples
+    6: O1                   256 Hz, 22083840 samples
+    7: FP2                  256 Hz, 22083840 samples
+    8: F4                   256 Hz, 22083840 samples
+    9: C4                   256 Hz, 22083840 samples
+   10: O2                   256 Hz, 22083840 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+
+====================================================================
+Folder : patient1
+File   : P043_eegData_file6.edf
+Path   : /Users/arifi020/Documents/MockPipelines/EEGPipeline/sample_data/patient1
+Signals: 10
+Length : 86309.00 to 86309.00 seconds
+Sample frequencies: 256 Hz
+
+First channel labels:
+    1: ekg1                 256 Hz, 22095104 samples
+    2: ekg2                 256 Hz, 22095104 samples
+    3: FP1                  256 Hz, 22095104 samples
+    4: F3                   256 Hz, 22095104 samples
+    5: C3                   256 Hz, 22095104 samples
+    6: O1                   256 Hz, 22095104 samples
+    7: FP2                  256 Hz, 22095104 samples
+    8: F4                   256 Hz, 22095104 samples
+    9: C4                   256 Hz, 22095104 samples
+   10: O2                   256 Hz, 22095104 samples
+
+Possible recording type: Possibly SEEG
+Bridge candidate: yes (10 usable channel(s))
+

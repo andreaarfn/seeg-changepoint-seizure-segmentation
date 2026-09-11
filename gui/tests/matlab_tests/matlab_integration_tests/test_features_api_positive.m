@@ -1,0 +1,116 @@
+function tests = test_features_api_positive
+% Positive MATLAB integration tests for gui.api.features_api.
+
+tests = functiontests(localfunctions);
+end
+
+
+function setupOnce(testCase)
+% Add the shared helper and mock-data folders.
+
+integrationTestsFolder = fileparts(mfilename("fullpath"));
+matlabTestsFolder = fileparts(integrationTestsFolder);
+
+addpath(fullfile(matlabTestsFolder, "helpers"));
+addpath(fullfile(matlabTestsFolder, "mock_data"));
+
+setup_python_test_environment();
+
+testCase.TestData.api = ...
+    py.importlib.import_module("gui.api.features_api");
+
+testCase.TestData.mock = mock_api_positive();
+end
+
+
+function testMatlabVectorCanReachFeaturesApi(testCase)
+% MATLAB sends a vector to Python and receives the same values back.
+
+api = testCase.TestData.api;
+mock = testCase.TestData.mock;
+
+inputSignal = mock.input.features.simpleSignal;
+pythonSignal = py.list(num2cell(inputSignal));
+
+result = api.validate_signal( ...
+    pythonSignal, ...
+    mock.input.fs ...
+);
+
+actualSignal = double(result);
+
+testCase.verifyEqual( ...
+    actualSignal(:)', ...
+    mock.expected.features.simpleSignal ...
+);
+end
+
+
+function testSignalCanBeReturnedWithoutFiltering(testCase)
+% Disabling the filter should leave the signal values unchanged.
+
+api = testCase.TestData.api;
+mock = testCase.TestData.mock;
+
+inputSignal = mock.input.features.simpleSignal;
+pythonSignal = py.list(num2cell(inputSignal));
+
+result = api.preprocess_signal( ...
+    pythonSignal, ...
+    mock.input.fs, ...
+    pyargs("apply_highpass", false) ...
+);
+
+actualSignal = double(result);
+
+testCase.verifyEqual( ...
+    actualSignal(:)', ...
+    mock.expected.features.simpleSignal ...
+);
+end
+
+
+function testMatlabSignalCanCreateFeatureMatrix(testCase)
+% MATLAB sends a five-second signal to Python.
+% Python should return the expected feature-matrix shape and time indices.
+
+api = testCase.TestData.api;
+mock = testCase.TestData.mock;
+
+numpy = py.importlib.import_module("numpy");
+
+pythonSignal = numpy.array( ...
+    mock.input.features.signal ...
+);
+
+result = api.prepare_feature_matrix( ...
+    pythonSignal, ...
+    mock.input.fs, ...
+    int32(mock.input.features.windowSize), ...
+    int32(mock.input.features.step), ...
+    pyargs("apply_highpass", false) ...
+);
+
+featureMatrix = double( ...
+    result{py.str("feature_matrix")} ...
+);
+
+timeIndices = double( ...
+    result{py.str("time_indices")} ...
+);
+
+testCase.verifySize( ...
+    featureMatrix, ...
+    mock.expected.features.matrixSize ...
+);
+
+testCase.verifyEqual( ...
+    timeIndices(:)', ...
+    mock.expected.features.timeIndices ...
+);
+
+testCase.verifyTrue( ...
+    all(isfinite(featureMatrix), "all"), ...
+    "The returned feature matrix contains NaN or infinite values." ...
+);
+end
